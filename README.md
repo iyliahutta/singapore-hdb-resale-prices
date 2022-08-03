@@ -1,4 +1,4 @@
-Singapore HDB Sales Prices for 1990 - 2022
+Singapore HDB Resale Flat Prices for 1990 - 2022
 ================
 
 ## GitHub Documents
