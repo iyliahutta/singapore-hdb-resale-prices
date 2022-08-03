@@ -1,6 +1,8 @@
 ---
 title: "Singapore HDB Resale Flat Prices for 1990 - 2022"
-output: github_document
+output: 
+  github_document:
+    toc: TRUE
 ---
 
 ```{r setup, include=FALSE}

@@ -1,6 +1,8 @@
 Singapore HDB Resale Flat Prices for 1990 - 2022
 ================
 
+-   <a href="#introduction" id="toc-introduction">Introduction</a>
+
 ## Introduction
 
 As a millenial growing up in Singapore and starting out in my first job,
