@@ -27,10 +27,8 @@ to do this:
 Whilst BTOs tend to be the choice of most young Singaporean couples, my
 current and potential future situation may push my partner and I to look
 towards resale flats to meet our housing needs. As such, I set forth on
-this project thatread_csv(“C:/Users/iylia.hutta/OneDrive -
-Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale
-Prices/Data/resale-flat-prices-based-on-approval-date-1990-1999”) will
-focus on resale flats under the Housing & Development Board (HDB).
+this project that will focus on resale flats under the Housing &
+Development Board (HDB).
 
 This project therefore seeks to analyse the prices of Singapore’s HDB
 Resale Flats for the years of 1990 - 2022. Data was obtained from
