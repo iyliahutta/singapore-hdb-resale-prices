@@ -55,7 +55,7 @@ head(latest_data)
 
 From these, we see that the data structure is generally similar. The only difference being that the "Jan 2015 - Dec 2016" and "Jan 2017 onwards" data consists of an extra column `remaining_lease`, indicating the remaining years of lease for the houses in the datasets. For the purpose of this project then, we will be dropping this column to maintain data uniformity.
 
-```{r drop excess columns, eval = FALSE}
+```{r drop excess columns}
 dec2016_data <- dec2016_data %>% 
   select(-remaining_lease)
 
@@ -83,9 +83,9 @@ resale_data %>%
   summarise(n())
 ```
 
-However, before we create the new variable, it would be helpful to understand the distribution of storey ranges among the resale flats. This is because most old HDB flats (circa prior to 2010) were only built up to about 15 storeys.
+However, before we create the new variable, it would be helpful to understand the distribution of storey ranges among the resale flats. This is because **most** old HDB flats (circa prior to 2010) were only built up to about 15 storeys.
 
-```{r storey_ranges by year}
+```{r storey_ranges by year, warning = FALSE, message = FALSE}
 library(do)
 
 #Create year variable
@@ -104,9 +104,19 @@ resale_data %>%
   coord_flip() +
   facet_wrap(~year)
 
-#1990s HDB flats
+#2000s HDB flats
 resale_data %>% 
-  filter(year < 2000) %>% 
+  filter(year >= 2000 & year < 2010) %>% 
+  group_by(year, storey_range) %>% 
+  summarise(count = n()) %>% 
+  ggplot(aes(x = storey_range, y = count)) +
+  geom_boxplot() +
+  coord_flip() +
+  facet_wrap(~year)
+
+#2010 - 2022 HDB flats
+resale_data %>% 
+  filter(year >= 2010 & year <= 2022) %>% 
   group_by(year, storey_range) %>% 
   summarise(count = n()) %>% 
   ggplot(aes(x = storey_range, y = count)) +
