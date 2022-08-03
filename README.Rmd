@@ -3,6 +3,8 @@ title: "Singapore HDB Resale Flat Prices for 1990 - 2022"
 output: 
   github_document:
     toc: TRUE
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -19,7 +21,7 @@ As a millenial growing up in Singapore and starting out in my first job, one of 
 Here in [Singapore](https://en.wikipedia.org/wiki/Singapore), there are generally [two ways](https://www.propertyguru.com.sg/property-guides/the-different-types-of-housing-in-singapore-9916) to do this:
 
 - [Public Housing](https://www.hdb.gov.sg/about-us/our-role/public-housing-a-singapore-icon)
-  - Brand new Built-to-Order (BTO) Flats
+  - Brand new Built-to-Order (BTO) Flats (or apartments)
   - Resale Flats
 - Private Housing (e.g., condominiums, landed property, etc.)
 
@@ -33,6 +35,7 @@ This project therefore seeks to analyse the prices of Singapore's HDB Resale Fla
 #change wd to dataset folder
 setwd("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data")
 
+#import data as objects
 nineties_data <- read_csv("resale-flat-prices-based-on-approval-date-1990-1999.csv")
 feb2012_data <- read_csv("resale-flat-prices-based-on-approval-date-2000-feb-2012.csv")
 dec2014_data <- read_csv("resale-flat-prices-based-on-registration-date-from-mar-2012-to-dec-2014.csv")
@@ -40,6 +43,18 @@ dec2016_data <- read_csv("resale-flat-prices-based-on-registration-date-from-jan
 latest_data <- read_csv("resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv")
 ```
 
+
+## Data Exploration
+
+First, we will examine the data to understand its structure and contents.
+
+```{r data exploration}
+head(nineties_data)
+head(feb2012_data)
+head(dec2014_data)
+head(dec2016_data)
+head(latest_data)
+```
 
 
 
