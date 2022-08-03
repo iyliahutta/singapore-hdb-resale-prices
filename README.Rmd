@@ -9,6 +9,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readr)
+setwd("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices")
 ```
 
 ## Introduction
@@ -28,10 +29,20 @@ This project therefore seeks to analyse the prices of Singapore's HDB Resale Fla
 
 #### Importing datasets
 
-```{r import}
+```{r import, message=FALSE}
 #change wd to dataset folder
 setwd("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data")
 
-read_csv("resale-flat-prices-based-on-approval-date-1990-1999.csv")
+nineties_data <- read_csv("resale-flat-prices-based-on-approval-date-1990-1999.csv")
+feb2012_data <- read_csv("resale-flat-prices-based-on-approval-date-2000-feb-2012.csv")
+dec2014_data <- read_csv("resale-flat-prices-based-on-registration-date-from-mar-2012-to-dec-2014.csv")
+dec2016_data <- read_csv("resale-flat-prices-based-on-registration-date-from-jan-2015-to-dec-2016.csv")
+latest_data <- read_csv("resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv")
 ```
+
+
+
+
+
+
 
