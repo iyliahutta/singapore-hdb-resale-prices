@@ -9,10 +9,13 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, root.dir = "C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices")
+```
+
+```{r packages, include = FALSE}
 library(tidyverse)
 library(readr)
-library(do)
 ```
+
 
 ## Introduction
 
@@ -55,12 +58,12 @@ From these, we see that the data structure is generally similar. The only differ
 
 ```{r drop excess columns}
 dec2016_data <- dec2016_data %>% 
-  select(-remaining_lease)
+  select(!remaining_lease)
 
 head(dec2016_data)
 
 latest_data <- latest_data %>% 
-  select(-remaining_lease)
+  select(!remaining_lease)
 
 head(latest_data)
 ```

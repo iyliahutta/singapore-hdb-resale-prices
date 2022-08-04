@@ -130,7 +130,7 @@ maintain data uniformity.
 
 ``` r
 dec2016_data <- dec2016_data %>% 
-  select(-remaining_lease)
+  select(!remaining_lease)
 
 head(dec2016_data)
 ```
@@ -148,7 +148,7 @@ head(dec2016_data)
 
 ``` r
 latest_data <- latest_data %>% 
-  select(-remaining_lease)
+  select(!remaining_lease)
 
 head(latest_data)
 ```
