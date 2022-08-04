@@ -113,7 +113,7 @@ Now that the data is cleaned and ready for analysis, we can do some quick explor
 
 First, we know that generally, HDB flat prices tend to vary by their storey levels. We can visualise this layman assumption here:
 
-```{r plot storeys and price, include = FALSE}
+```{r plot storeys and price, echo = FALSE}
 ggplot(resale_data, aes(x = storeys, y = resale_price/1000)) +
   geom_boxplot() +
   coord_flip() +
@@ -128,7 +128,7 @@ One possible explanation for near similar variations and ragnes could be the sco
 
 Let's examine the relationship between HDB towns and prices next:
 
-```{r plot towns and price, include = FALSE}
+```{r plot towns and price, echo = FALSE}
 ggplot(resale_data, aes(x = reorder(town, resale_price, median), y = resale_price/1000)) +
   geom_boxplot() +
   coord_flip() +

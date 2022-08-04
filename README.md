@@ -243,6 +243,8 @@ quick exploratory analyses.
 First, we know that generally, HDB flat prices tend to vary by their
 storey levels. We can visualise this layman assumption here:
 
+![](README_files/figure-gfm/plot%20storeys%20and%20price-1.png)<!-- -->
+
 Although the variation and range of resale flat prices are relatively
 the same, the median prices for each of the storey categories seem to
 fit this assumption. That is, HDB flats on the lower levels generally
@@ -254,6 +256,8 @@ Furthermore, the above chart does not take into account the HDB town,
 which, as most Singaporeans know, also influences the prices of flats.
 
 Let’s examine the relationship between HDB towns and prices next:
+
+![](README_files/figure-gfm/plot%20towns%20and%20price-1.png)<!-- -->
 
 It is therefore evident that HDB resale flat prices do vary by their
 towns.
