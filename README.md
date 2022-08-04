@@ -191,8 +191,8 @@ However, before we create the new variable, it would be helpful to
 understand the range of storey ranges among the resale flats and create
 a new variable to categorise them.
 
-Very few resale flats have more than 12 to 15 floors, hence, everything
-above the 9th floor will be tagged as *“high”*.
+Even in 2022, very few resale flats have more than 12 to 15 floors,
+hence, everything above the 9th floor will be tagged as *“high”*.
 
 ``` r
 #examine the values in storey_range for each year period
@@ -236,3 +236,24 @@ head(resale_data)
     ## #   resale_price <dbl>
 
 ## Exploratory Data Analysis
+
+Now that the data is cleaned and ready for analysis, we can do some
+quick exploratory analyses.
+
+First, we know that generally, HDB flat prices tend to vary by their
+storey levels. We can visualise this layman assumption here:
+
+Although the variation and range of resale flat prices are relatively
+the same, the median prices for each of the storey categories seem to
+fit this assumption. That is, HDB flats on the lower levels generally
+tend to cost less than those on the higher levels.
+
+One possible explanation for near similar variations and ragnes could be
+the scope of the dataset, which covers approximately 30 years’ worth.
+Furthermore, the above chart does not take into account the HDB town,
+which, as most Singaporeans know, also influences the prices of flats.
+
+Let’s examine the relationship between HDB towns and prices next:
+
+It is therefore evident that HDB resale flat prices do vary by their
+towns.
