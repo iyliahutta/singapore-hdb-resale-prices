@@ -39,17 +39,6 @@ and
 which were sourced from GovTech’s open data portal,
 [data.gov.sg](https://data.gov.sg/dataset/resale-flat-prices).
 
-#### Importing datasets
-
-``` r
-#import data as objects
-nineties_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-approval-date-1990-1999.csv")
-feb2012_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-approval-date-2000-feb-2012.csv")
-dec2014_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-registration-date-from-mar-2012-to-dec-2014.csv")
-dec2016_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-registration-date-from-jan-2015-to-dec-2016.csv")
-latest_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv")
-```
-
 ## Data Exploration
 
 First, we will examine the data to understand its structure and
@@ -196,82 +185,54 @@ head(resale_data)
 
 Looking into the dataset, we see that the `storey_range` variable has
 varied values, which we will be renaming into a new variable called
-`storey`:
-
-``` r
-resale_data %>% 
-  group_by(storey_range) %>% 
-  summarise(n())
-```
-
-    ## # A tibble: 25 × 2
-    ##    storey_range  `n()`
-    ##    <chr>         <int>
-    ##  1 01 TO 03     176783
-    ##  2 01 TO 05       2700
-    ##  3 04 TO 06     219965
-    ##  4 06 TO 10       2474
-    ##  5 07 TO 09     198370
-    ##  6 10 TO 12     168499
-    ##  7 11 TO 15       1259
-    ##  8 13 TO 15      56712
-    ##  9 16 TO 18      21687
-    ## 10 16 TO 20        265
-    ## # … with 15 more rows
+`storeys`.
 
 However, before we create the new variable, it would be helpful to
-understand the distribution of storey ranges among the resale flats.
-This is because **most** old HDB flats (circa prior to 2010) were only
-built up to about 15 storeys.
+understand the range of storey ranges among the resale flats and create
+a new variable to categorise them.
+
+Very few resale flats have more than 12 to 15 floors, hence, everything
+above the 9th floor will be tagged as *“high”*.
 
 ``` r
-library(do)
+#examine the values in storey_range for each year period
+resale_data %>% 
+  group_by(storey_range) %>% 
+  summarise(count = n()) %>% 
+  ggplot(aes(x = storey_range, y = count)) +
+  geom_col() +
+  coord_flip() +
+  labs(y = "Count of flats",
+       x = "Storey Ranges",
+       title = "Number of flats per storey range in 1990 to 2022")
+```
 
-#Create year variable
+![](README_files/figure-gfm/storey_ranges-1.png)<!-- -->
+
+``` r
+#create new variable 
 resale_data <- resale_data %>% 
-  mutate(year = as.integer(left(month, 4))) %>% 
-  relocate(year, .before = town)
+  mutate(storeys = factor(case_when(
+    storey_range == "01 TO 03" | storey_range == "01 TO 05" | storey_range == "04 TO 06" ~ "low",
+    storey_range == "06 TO 10" | storey_range == "07 TO 09" ~ "mid",
+    TRUE ~ "high"
+  ),
+  levels = c("low", "mid", "high"))) %>% 
+  relocate(storeys, .after = storey_range)
 
-#Plot box plots of counts grouped by storey_ranges and faceted by year
-#1990s HDB flats
-resale_data %>% 
-  filter(year < 2000) %>% 
-  group_by(year, storey_range) %>% 
-  summarise(count = n()) %>% 
-  ggplot(aes(x = storey_range, y = count)) +
-  geom_boxplot() +
-  coord_flip() +
-  facet_wrap(~year)
+head(resale_data)
 ```
 
-![](README_files/figure-gfm/storey_ranges%20by%20year-1.png)<!-- -->
-
-``` r
-#2000s HDB flats
-resale_data %>% 
-  filter(year >= 2000 & year < 2010) %>% 
-  group_by(year, storey_range) %>% 
-  summarise(count = n()) %>% 
-  ggplot(aes(x = storey_range, y = count)) +
-  geom_boxplot() +
-  coord_flip() +
-  facet_wrap(~year)
-```
-
-![](README_files/figure-gfm/storey_ranges%20by%20year-2.png)<!-- -->
-
-``` r
-#2010 - 2022 HDB flats
-resale_data %>% 
-  filter(year >= 2010 & year <= 2022) %>% 
-  group_by(year, storey_range) %>% 
-  summarise(count = n()) %>% 
-  ggplot(aes(x = storey_range, y = count)) +
-  geom_boxplot() +
-  coord_flip() +
-  facet_wrap(~year)
-```
-
-![](README_files/figure-gfm/storey_ranges%20by%20year-3.png)<!-- -->
+    ## # A tibble: 6 × 11
+    ##   month   town   flat_type block street_name storey_range storeys floor_area_sqm
+    ##   <chr>   <chr>  <chr>     <chr> <chr>       <chr>        <fct>            <dbl>
+    ## 1 1990-01 ANG M… 1 ROOM    309   ANG MO KIO… 10 TO 12     high                31
+    ## 2 1990-01 ANG M… 1 ROOM    309   ANG MO KIO… 04 TO 06     low                 31
+    ## 3 1990-01 ANG M… 1 ROOM    309   ANG MO KIO… 10 TO 12     high                31
+    ## 4 1990-01 ANG M… 1 ROOM    309   ANG MO KIO… 07 TO 09     mid                 31
+    ## 5 1990-01 ANG M… 3 ROOM    216   ANG MO KIO… 04 TO 06     low                 73
+    ## 6 1990-01 ANG M… 3 ROOM    211   ANG MO KIO… 01 TO 03     low                 67
+    ## # … with 3 more variables: flat_model <chr>, lease_commence_date <dbl>,
+    ## #   resale_price <dbl>
 
 ## Exploratory Data Analysis

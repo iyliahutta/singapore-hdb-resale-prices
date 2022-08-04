@@ -11,6 +11,7 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE, root.dir = "C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices")
 library(tidyverse)
 library(readr)
+library(do)
 ```
 
 ## Introduction
@@ -72,43 +73,35 @@ resale_data <- bind_rows(nineties_data,feb2012_data,dec2014_data,dec2016_data,la
 head(resale_data)
 ```
 
-Looking into the dataset, we see that the `storey_range` variable has varied values, which we will be renaming into a new variable called `storeys`:
-
-```{r examine storey_range}
-resale_data %>% 
-  group_by(storey_range) %>% 
-  summarise(n())
-```
+Looking into the dataset, we see that the `storey_range` variable has varied values, which we will be renaming into a new variable called `storeys`.
 
 However, before we create the new variable, it would be helpful to understand the range of storey ranges among the resale flats and create a new variable to categorise them. 
 
 Very few resale flats have more than 12 to 15 floors, hence, everything above the 9th floor will be tagged as *"high"*.
 
 ```{r storey_ranges, warning = FALSE, message = FALSE}
-library(do)
-
-#Create year variable
-resale_data <- resale_data %>% 
-  mutate(year = as.integer(left(month, 4))) %>% 
-  relocate(year, .before = town)
-
 #examine the values in storey_range for each year period
 resale_data %>% 
   group_by(storey_range) %>% 
   summarise(count = n()) %>% 
   ggplot(aes(x = storey_range, y = count)) +
   geom_col() +
-  coord_flip()
+  coord_flip() +
+  labs(y = "Count of flats",
+       x = "Storey Ranges",
+       title = "Number of flats per storey range in 1990 to 2022")
 
 #create new variable 
 resale_data <- resale_data %>% 
-  mutate(storeys = as.factor(case_when(
+  mutate(storeys = factor(case_when(
     storey_range == "01 TO 03" | storey_range == "01 TO 05" | storey_range == "04 TO 06" ~ "low",
     storey_range == "06 TO 10" | storey_range == "07 TO 09" ~ "mid",
     TRUE ~ "high"
-  ))) %>% 
+  ),
+  levels = c("low", "mid", "high"))) %>% 
   relocate(storeys, .after = storey_range)
 
+head(resale_data)
 ```
 
 ## Exploratory Data Analysis
