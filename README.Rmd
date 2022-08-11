@@ -239,7 +239,7 @@ We can make three observations here:
 For HDB Resale Flats sold from 2010 onwards,
 
 1. Apartments on higher floors (i.e., at least 11th floor) tend to be priced SGD `r median_diff` more than those on middle floors (i.e., 6th to 10th floors)
-2. Apartments in the areas nearer to the Central Business District (CBD) area of Singapore tend to be priced more than those further away, with those in mature estates priced higher than those in non-mature estates (see [here](https://www.propertyguru.com.sg/property-guides/non-mature-vs-mature-bto-55760) for list of such estates)
+2. Apartments in the areas nearer to the Central Business District (CBD) area of Singapore tend to be priced more than those further away, with those in mature estates priced higher than those in non-mature estates (see [here](https://www.propertyguru.com.sg/property-guides/non-mature-vs-mature-bto-55760) for a list of such estates)
 3. Apartments with larger flat types tend to be priced higher than relatively smaller ones
 
 

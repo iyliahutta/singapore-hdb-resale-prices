@@ -206,7 +206,7 @@ For HDB Resale Flats sold from 2010 onwards,
     away, with those in mature estates priced higher than those in
     non-mature estates (see
     [here](https://www.propertyguru.com.sg/property-guides/non-mature-vs-mature-bto-55760)
-    for list of such estates)
+    for a list of such estates)
 3.  Apartments with larger flat types tend to be priced higher than
     relatively smaller ones
 
