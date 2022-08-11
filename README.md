@@ -186,3 +186,5 @@ considering the recency of the data.
 ![](README_files/figure-gfm/plot%20storeys%20and%20price%20with%20filtered%20data-1.png)<!-- -->
 
 ![](README_files/figure-gfm/plot%20towns%20and%20price%20with%20filtered%20data-1.png)<!-- -->
+
+![](README_files/figure-gfm/plot%20flat%20type%20and%20price%20with%20filtered%20data-1.png)<!-- -->
