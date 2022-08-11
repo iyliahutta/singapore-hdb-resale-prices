@@ -243,8 +243,9 @@ For HDB Resale Flats sold from 2010 onwards,
 3. Apartments with larger flat types tend to be priced higher than relatively smaller ones
 
 
-Another interesting observation is with the spread of resale prices by HDB towns. 
-Let's take a look at both the unfiltered (left) and filtered (right) data visualisations side by side again:
+Another interesting observation is with the spread of resale prices by HDB towns.
+
+Let's take a look at both the unfiltered (left) and filtered (right) data visualisations side by side:
 
 ```{r plot towns and price side, echo = FALSE, fig.show="hold", out.width="50%"}
 ggplot(resale_data, aes(x = reorder(town, resale_price, median), y = resale_price/1000)) +

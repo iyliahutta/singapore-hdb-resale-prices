@@ -209,7 +209,9 @@ For HDB Resale Flats sold from 2010 onwards,
     relatively smaller ones
 
 Another interesting observation is with the spread of resale prices by
-HDB towns. Let’s take a look at both the unfiltered (left) and filtered
-(right) data visualisations side by side again:
+HDB towns.
+
+Let’s take a look at both the unfiltered (left) and filtered (right)
+data visualisations side by side again:
 
 <img src="README_files/figure-gfm/plot towns and price side-1.png" width="50%" /><img src="README_files/figure-gfm/plot towns and price side-2.png" width="50%" />
