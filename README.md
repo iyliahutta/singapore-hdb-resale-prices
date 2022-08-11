@@ -6,9 +6,8 @@ Singapore HDB Resale Flat Prices for 1990 - 2022
     Exploration</a>
 -   <a href="#exploratory-data-analysis"
     id="toc-exploratory-data-analysis">Exploratory Data Analysis</a>
-    -   <a href="#analyses-with-filtered-dataset"
-        id="toc-analyses-with-filtered-dataset">Analyses with filtered
-        dataset</a>
+    -   <a href="#analyses-for-2010---2022"
+        id="toc-analyses-for-2010---2022">Analyses for 2010 - 2022</a>
 
 ## Introduction
 
@@ -31,7 +30,10 @@ Whilst BTOs tend to be the choice of most young Singaporean couples, my
 current and potential future situation may push my partner and I to look
 towards resale flats to meet our housing needs. As such, I set forth on
 this project that will focus on resale flats under the Housing &
-Development Board (HDB).
+Development Board (HDB). I hope to uncover insights into the
+relationships between variables related to resale flat prices and
+whether the data can be fitted into a model that may give an idea of
+future prices.
 
 This project therefore seeks to analyse the prices of Singapore’s HDB
 Resale Flats for the years of 1990 - 2022. Data was obtained from
@@ -181,7 +183,7 @@ This gives us a dataset with 38,695 observations - something much easier
 to work with and relatively more reflective of current trends,
 considering the recency of the data.
 
-### Analyses with filtered dataset
+### Analyses for 2010 - 2022
 
 Here, we repeat the analyses from the previous section using the
 filtered dataset.
@@ -212,6 +214,6 @@ Another interesting observation is with the spread of resale prices by
 HDB towns.
 
 Let’s take a look at both the unfiltered (left) and filtered (right)
-data visualisations side by side again:
+data visualisations side by side:
 
 <img src="README_files/figure-gfm/plot towns and price side-1.png" width="50%" /><img src="README_files/figure-gfm/plot towns and price side-2.png" width="50%" />

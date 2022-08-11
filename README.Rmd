@@ -28,7 +28,7 @@ Here in [Singapore](https://en.wikipedia.org/wiki/Singapore), there are generall
   - Resale Flats
 - Private Housing (e.g., condominiums, landed property, etc.)
 
-Whilst BTOs tend to be the choice of most young Singaporean couples, my current and potential future situation may push my partner and I to look towards resale flats to meet our housing needs. As such, I set forth on this project that will focus on resale flats under the Housing & Development Board (HDB).
+Whilst BTOs tend to be the choice of most young Singaporean couples, my current and potential future situation may push my partner and I to look towards resale flats to meet our housing needs. As such, I set forth on this project that will focus on resale flats under the Housing & Development Board (HDB). I hope to uncover insights into the relationships between variables related to resale flat prices and whether the data can be fitted into a model that may give an idea of future prices.
 
 This project therefore seeks to analyse the prices of Singapore's HDB Resale Flats for the years of 1990 - 2022. Data was obtained from Kaggle, [(1)](https://www.kaggle.com/datasets/syrahmadi/resale-hdb-flat-prices-2000-2022) and [(2)](https://www.kaggle.com/datasets/chngyuanlongrandy/hdb-prices-with-closest-mrt-distance), which were sourced from GovTech's open data portal, [data.gov.sg](https://data.gov.sg/dataset/resale-flat-prices).
 
@@ -184,7 +184,7 @@ head(filtered_data)
 
 This gives us a dataset with 38,695 observations - something much easier to work with and relatively more reflective of current trends, considering the recency of the data.
 
-### Analyses with filtered dataset
+### Analyses for 2010 - 2022
 
 Here, we repeat the analyses from the previous section using the filtered dataset.
 
