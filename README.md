@@ -6,6 +6,9 @@ Singapore HDB Resale Flat Prices for 1990 - 2022
     Exploration</a>
 -   <a href="#exploratory-data-analysis"
     id="toc-exploratory-data-analysis">Exploratory Data Analysis</a>
+    -   <a href="#analyses-with-filtered-dataset"
+        id="toc-analyses-with-filtered-dataset">Analyses with filtered
+        dataset</a>
 
 ## Introduction
 
@@ -122,25 +125,12 @@ hence, everything above the 9th floor will be tagged as *“high”*.
 
 ![](README_files/figure-gfm/storey_ranges-1.png)<!-- -->
 
-    ## # A tibble: 6 × 11
-    ##   month   town   flat_type block street_name storey_range storeys floor_area_sqm
-    ##   <chr>   <chr>  <chr>     <chr> <chr>       <chr>        <fct>            <dbl>
-    ## 1 1990-01 ANG M… 1 ROOM    309   ANG MO KIO… 10 TO 12     high                31
-    ## 2 1990-01 ANG M… 1 ROOM    309   ANG MO KIO… 04 TO 06     low                 31
-    ## 3 1990-01 ANG M… 1 ROOM    309   ANG MO KIO… 10 TO 12     high                31
-    ## 4 1990-01 ANG M… 1 ROOM    309   ANG MO KIO… 07 TO 09     mid                 31
-    ## 5 1990-01 ANG M… 3 ROOM    216   ANG MO KIO… 04 TO 06     low                 73
-    ## 6 1990-01 ANG M… 3 ROOM    211   ANG MO KIO… 01 TO 03     low                 67
-    ## # … with 3 more variables: flat_model <chr>, lease_commence_date <dbl>,
-    ## #   resale_price <dbl>
-
 ## Exploratory Data Analysis
 
-Now that the data is cleaned and ready for analysis, we can do some
-quick exploratory analyses.
+Now that the data is cleaned, we can do some quick exploratory analyses.
 
-First, we know that generally, HDB flat prices tend to vary by their
-storey levels. We can visualise this layman assumption here:
+First, we know that generally, HDB flat prices tend to vary by storey
+levels. We can visualise this layman assumption here:
 
 ![](README_files/figure-gfm/plot%20storeys%20and%20price-1.png)<!-- -->
 
@@ -161,3 +151,38 @@ Let’s examine the relationship between HDB towns and prices next:
 
 It is therefore evident that HDB resale flat prices do vary by their
 towns.
+
+At this point, as mentioned above, the range of data is still massive
+with about 871,671 observations. For ease of and more focused analyses,
+we will narrow down the dataset by three conditions:
+
+-   Apartments from 2010 onwards (because we want newer houses and
+    buildings)
+-   Apartments of at least 4-room and not multi-generation (so that we
+    have a flat that is big enough to house at least 2 children)
+-   Apartments located on “mid” or “high” storeys (as we simply prefer
+    being higher up and for the higher resale value over time)
+
+<!-- -->
+
+    ## # A tibble: 6 × 13
+    ##   month   year town  flat_type flat_type2 block street_name storey_range storeys
+    ##   <chr>  <int> <chr> <chr>     <fct>      <chr> <chr>       <chr>        <fct>  
+    ## 1 2010-…  2010 ANG … 4 ROOM    4-room     414   ANG MO KIO… 07 TO 09     mid    
+    ## 2 2010-…  2010 ANG … 4 ROOM    4-room     472   ANG MO KIO… 13 TO 15     high   
+    ## 3 2010-…  2010 ANG … 4 ROOM    4-room     624   ANG MO KIO… 10 TO 12     high   
+    ## 4 2010-…  2010 ANG … 4 ROOM    4-room     643   ANG MO KIO… 07 TO 09     mid    
+    ## 5 2010-…  2010 ANG … 5 ROOM    5-room     418   ANG MO KIO… 07 TO 09     mid    
+    ## 6 2010-…  2010 ANG … 5 ROOM    5-room     545   ANG MO KIO… 13 TO 15     high   
+    ## # … with 4 more variables: floor_area_sqm <dbl>, flat_model <chr>,
+    ## #   lease_commence_date <dbl>, resale_price <dbl>
+
+This gives us a dataset with 38,695 observations - something much easier
+to work with and relatively more reflective of current trends,
+considering the recency of the data.
+
+### Analyses with filtered dataset
+
+![](README_files/figure-gfm/plot%20storeys%20and%20price%20with%20filtered%20data-1.png)<!-- -->
+
+![](README_files/figure-gfm/plot%20towns%20and%20price%20with%20filtered%20data-1.png)<!-- -->

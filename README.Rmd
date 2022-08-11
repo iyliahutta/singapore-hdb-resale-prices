@@ -32,7 +32,7 @@ Whilst BTOs tend to be the choice of most young Singaporean couples, my current 
 
 This project therefore seeks to analyse the prices of Singapore's HDB Resale Flats for the years of 1990 - 2022. Data was obtained from Kaggle, [(1)](https://www.kaggle.com/datasets/syrahmadi/resale-hdb-flat-prices-2000-2022) and [(2)](https://www.kaggle.com/datasets/chngyuanlongrandy/hdb-prices-with-closest-mrt-distance), which were sourced from GovTech's open data portal, [data.gov.sg](https://data.gov.sg/dataset/resale-flat-prices).
 
-```{r import, message=FALSE, echo = FALSE}
+```{r import, message = FALSE, echo = FALSE}
 #import data as objects
 nineties_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-approval-date-1990-1999.csv")
 feb2012_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-approval-date-2000-feb-2012.csv")
@@ -91,7 +91,9 @@ resale_data %>%
   labs(y = "Count of flats",
        x = "Storey Ranges",
        title = "Number of flats per storey range in 1990 to 2022")
+```
 
+```{r relabel storey_ranges, include = FALSE}
 #create new variable 
 resale_data <- resale_data %>% 
   mutate(storeys = factor(case_when(
@@ -107,9 +109,9 @@ head(resale_data)
 
 ## Exploratory Data Analysis
 
-Now that the data is cleaned and ready for analysis, we can do some quick exploratory analyses.
+Now that the data is cleaned, we can do some quick exploratory analyses.
 
-First, we know that generally, HDB flat prices tend to vary by their storey levels. We can visualise this layman assumption here:
+First, we know that generally, HDB flat prices tend to vary by storey levels. We can visualise this layman assumption here:
 
 ```{r plot storeys and price, echo = FALSE}
 ggplot(resale_data, aes(x = storeys, y = resale_price/1000)) +
@@ -117,7 +119,7 @@ ggplot(resale_data, aes(x = storeys, y = resale_price/1000)) +
   coord_flip() +
   labs(x = "Storeys",
        y = "Prices (thousands; SGD)",
-       title = "Spread of HDB Resale Flat Prices by Storey levels") +
+       title = "Spread of HDB Resale Flat Prices by Storey Levels") +
   scale_y_continuous(breaks = seq(0, 1500, by = 200))
 ```
 
@@ -133,9 +135,83 @@ ggplot(resale_data, aes(x = reorder(town, resale_price, median), y = resale_pric
   coord_flip() +
   labs(x = "Towns",
        y = "Prices (thousands; SGD)",
-       title = "Spread of HDB Resale Flat Prices by HDB towns") +
+       title = "Spread of HDB Resale Flat Prices by HDB Towns") +
   scale_y_continuous(breaks = seq(0, 1500, by = 200))
 ```
 
-It is therefore evident that HDB resale flat prices do vary by their towns. 
+It is therefore evident that HDB resale flat prices do vary by their towns.
 
+At this point, as mentioned above, the range of data is still massive with about 871,671 observations. For ease of and more focused analyses, we will narrow down the dataset by three conditions:
+
+- Apartments from 2010 onwards (because we want newer houses and buildings)
+- Apartments of at least 4-room and not multi-generation (so that we have a flat that is big enough to house at least 2 children)
+- Apartments located on "mid" or "high" storeys (as we simply prefer being higher up and for the higher resale value over time)
+
+```{r create year variable, include = FALSE}
+resale_data <- resale_data %>% 
+  mutate(year = as.integer(str_sub(month, end = 4))) %>% 
+  relocate(year, .after = month)
+```
+
+```{r clean flat_type data, include = FALSE}
+resale_data %>% 
+  group_by(flat_type) %>% 
+  summarise(n())
+
+resale_data <- resale_data %>% 
+  mutate(flat_type2 = factor(case_when(
+    flat_type == "1 ROOM" ~ "1-room",
+    flat_type == "2 ROOM" ~ "2-room",
+    flat_type == "3 ROOM" ~ "3-room",
+    flat_type == "4 ROOM" ~ "4-room",
+    flat_type == "5 ROOM" ~ "5-room",
+    flat_type == "EXECUTIVE" ~ "Executive",
+    TRUE ~ "Others"
+  ),
+  levels = c("1-room", "2-room", "3-room", "4-room", "5-room", "Executive", "Others"))) %>% 
+  relocate(flat_type2, .after = flat_type)
+  
+```
+
+```{r filter data, echo = FALSE}
+filtered_data <- resale_data %>% 
+  filter(year >= 2010,
+         flat_type2 == c("4-room", "5-room", "Executive"),
+         storeys != "low")
+
+head(filtered_data)
+```
+
+This gives us a dataset with 38,695 observations - something much easier to work with and relatively more reflective of current trends, considering the recency of the data.
+
+### Analyses with filtered dataset
+
+```{r plot storeys and price with filtered data, echo = FALSE}
+ggplot(filtered_data, aes(x = storeys, y = resale_price/1000)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(x = "Storeys",
+       y = "Prices (thousands; SGD)",
+       title = "Spread of HDB Resale Flat Prices by Storey Levels") +
+  scale_y_continuous(breaks = seq(0, 1500, by = 200))
+```
+
+```{r plot towns and price with filtered data, echo = FALSE}
+ggplot(filtered_data, aes(x = reorder(town, resale_price, median), y = resale_price/1000)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(x = "Towns",
+       y = "Prices (thousands; SGD)",
+       title = "Spread of HDB Resale Flat Prices by HDB Towns") +
+  scale_y_continuous(breaks = seq(0, 1500, by = 200))
+```
+
+```{r plot flat type and price with filtered data, echo = FALSE}
+ggplot(filtered_data, aes(x = flat_type2, y = resale_price/1000)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(x = "Flat Type",
+       y = "Prices (thousands; SGD)",
+       title = "Spread of HDB Resale Flat Prices by Flat Types") +
+  scale_y_continuous(breaks = seq(0, 1500, by = 200))
+```
