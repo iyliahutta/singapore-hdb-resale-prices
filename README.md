@@ -44,10 +44,6 @@ which were sourced from GovTech’s open data portal,
 First, we will examine the data to understand its structure and
 contents.
 
-``` r
-head(nineties_data)
-```
-
     ## # A tibble: 6 × 10
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
     ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
@@ -58,10 +54,6 @@ head(nineties_data)
     ## 5 1990… ANG … 3 ROOM    216   ANG MO KIO… 04 TO 06                 73 NEW GENER…
     ## 6 1990… ANG … 3 ROOM    211   ANG MO KIO… 01 TO 03                 67 NEW GENER…
     ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
-
-``` r
-head(feb2012_data)
-```
 
     ## # A tibble: 6 × 10
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
@@ -74,10 +66,6 @@ head(feb2012_data)
     ## 6 2000… ANG … 3 ROOM    320   ANG MO KIO… 04 TO 06                 73 New Gener…
     ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
 
-``` r
-head(dec2014_data)
-```
-
     ## # A tibble: 6 × 10
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
     ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
@@ -88,10 +76,6 @@ head(dec2014_data)
     ## 5 2012… ANG … 3 ROOM    604   ANG MO KIO… 06 TO 10                 67 New Gener…
     ## 6 2012… ANG … 3 ROOM    154   ANG MO KIO… 01 TO 05                 68 New Gener…
     ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
-
-``` r
-head(dec2016_data)
-```
 
     ## # A tibble: 6 × 11
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
@@ -104,10 +88,6 @@ head(dec2016_data)
     ## 6 2015… ANG … 3 ROOM    603   ANG MO KIO… 07 TO 09                 67 New Gener…
     ## # … with 3 more variables: lease_commence_date <dbl>, remaining_lease <dbl>,
     ## #   resale_price <dbl>
-
-``` r
-head(latest_data)
-```
 
     ## # A tibble: 6 × 11
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
@@ -128,13 +108,6 @@ the remaining years of lease for the houses in the datasets. For the
 purpose of this project then, we will be dropping this column to
 maintain data uniformity.
 
-``` r
-dec2016_data <- dec2016_data %>% 
-  select(!remaining_lease)
-
-head(dec2016_data)
-```
-
     ## # A tibble: 6 × 10
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
     ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
@@ -145,13 +118,6 @@ head(dec2016_data)
     ## 5 2015… ANG … 3 ROOM    557   ANG MO KIO… 07 TO 09                 68 New Gener…
     ## 6 2015… ANG … 3 ROOM    603   ANG MO KIO… 07 TO 09                 67 New Gener…
     ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
-
-``` r
-latest_data <- latest_data %>% 
-  select(!remaining_lease)
-
-head(latest_data)
-```
 
     ## # A tibble: 6 × 10
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
@@ -164,14 +130,6 @@ head(latest_data)
     ## 6 2017… ANG … 3 ROOM    150   ANG MO KIO… 01 TO 03                 68 New Gener…
     ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
 
-Now that the data is similar, we can combine the datasets together:
-
-``` r
-resale_data <- bind_rows(nineties_data,feb2012_data,dec2014_data,dec2016_data,latest_data)
-
-head(resale_data)
-```
-
     ## # A tibble: 6 × 10
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
     ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
@@ -183,6 +141,7 @@ head(resale_data)
     ## 6 1990… ANG … 3 ROOM    211   ANG MO KIO… 01 TO 03                 67 NEW GENER…
     ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
 
+Now that the data is similar, we can combine the datasets together.
 Looking into the dataset, we see that the `storey_range` variable has
 varied values, which we will be renaming into a new variable called
 `storeys`.
@@ -194,34 +153,7 @@ a new variable to categorise them.
 Even in 2022, very few resale flats have more than 12 to 15 floors,
 hence, everything above the 9th floor will be tagged as *“high”*.
 
-``` r
-#examine the values in storey_range for each year period
-resale_data %>% 
-  group_by(storey_range) %>% 
-  summarise(count = n()) %>% 
-  ggplot(aes(x = storey_range, y = count)) +
-  geom_col() +
-  coord_flip() +
-  labs(y = "Count of flats",
-       x = "Storey Ranges",
-       title = "Number of flats per storey range in 1990 to 2022")
-```
-
 ![](README_files/figure-gfm/storey_ranges-1.png)<!-- -->
-
-``` r
-#create new variable 
-resale_data <- resale_data %>% 
-  mutate(storeys = factor(case_when(
-    storey_range == "01 TO 03" | storey_range == "01 TO 05" | storey_range == "04 TO 06" ~ "low",
-    storey_range == "06 TO 10" | storey_range == "07 TO 09" ~ "mid",
-    TRUE ~ "high"
-  ),
-  levels = c("low", "mid", "high"))) %>% 
-  relocate(storeys, .after = storey_range)
-
-head(resale_data)
-```
 
     ## # A tibble: 6 × 11
     ##   month   town   flat_type block street_name storey_range storeys floor_area_sqm
@@ -250,10 +182,11 @@ the same, the median prices for each of the storey categories seem to
 fit this assumption. That is, HDB flats on the lower levels generally
 tend to cost less than those on the higher levels.
 
-One possible explanation for near similar variations and ragnes could be
-the scope of the dataset, which covers approximately 30 years’ worth.
-Furthermore, the above chart does not take into account the HDB town,
-which, as most Singaporeans know, also influences the prices of flats.
+One possible explanation for near similar variations and ranges could be
+the scope of the dataset, which covers approximately 30 years’ worth of
+data. Furthermore, the above chart does not take into account the HDB
+town, which, as most Singaporeans know, also influences the prices of
+flats.
 
 Let’s examine the relationship between HDB towns and prices next:
 

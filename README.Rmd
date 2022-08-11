@@ -46,7 +46,7 @@ latest_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data 
 
 First, we will examine the data to understand its structure and contents.
 
-```{r data exploration}
+```{r data exploration, echo = FALSE}
 head(nineties_data)
 head(feb2012_data)
 head(dec2014_data)
@@ -56,7 +56,7 @@ head(latest_data)
 
 From these, we see that the data structure is generally similar. The only difference being that the "Jan 2015 - Dec 2016" and "Jan 2017 onwards" data consists of an extra column `remaining_lease`, indicating the remaining years of lease for the houses in the datasets. For the purpose of this project then, we will be dropping this column to maintain data uniformity.
 
-```{r drop excess columns}
+```{r drop excess columns, echo = FALSE}
 dec2016_data <- dec2016_data %>% 
   select(!remaining_lease)
 
@@ -68,21 +68,19 @@ latest_data <- latest_data %>%
 head(latest_data)
 ```
 
-Now that the data is similar, we can combine the datasets together:
-
-```{r union datasets}
+```{r union datasets, echo = FALSE}
 resale_data <- bind_rows(nineties_data,feb2012_data,dec2014_data,dec2016_data,latest_data)
 
 head(resale_data)
 ```
 
-Looking into the dataset, we see that the `storey_range` variable has varied values, which we will be renaming into a new variable called `storeys`.
+Now that the data is similar, we can combine the datasets together. Looking into the dataset, we see that the `storey_range` variable has varied values, which we will be renaming into a new variable called `storeys`.
 
 However, before we create the new variable, it would be helpful to understand the range of storey ranges among the resale flats and create a new variable to categorise them. 
 
 Even in 2022, very few resale flats have more than 12 to 15 floors, hence, everything above the 9th floor will be tagged as *"high"*.
 
-```{r storey_ranges, warning = FALSE, message = FALSE}
+```{r storey_ranges, warning = FALSE, message = FALSE, echo = FALSE}
 #examine the values in storey_range for each year period
 resale_data %>% 
   group_by(storey_range) %>% 
@@ -119,12 +117,13 @@ ggplot(resale_data, aes(x = storeys, y = resale_price/1000)) +
   coord_flip() +
   labs(x = "Storeys",
        y = "Prices (thousands; SGD)",
-       title = "Spread of HDB Resale Flat Prices by Storey levels")
+       title = "Spread of HDB Resale Flat Prices by Storey levels") +
+  scale_y_continuous(breaks = seq(0, 1500, by = 200))
 ```
 
 Although the variation and range of resale flat prices are relatively the same, the median prices for each of the storey categories seem to fit this assumption. That is, HDB flats on the lower levels generally tend to cost less than those on the higher levels.
 
-One possible explanation for near similar variations and ragnes could be the scope of the dataset, which covers approximately 30 years' worth. Furthermore, the above chart does not take into account the HDB town, which, as most Singaporeans know, also influences the prices of flats.
+One possible explanation for near similar variations and ranges could be the scope of the dataset, which covers approximately 30 years' worth of data. Furthermore, the above chart does not take into account the HDB town, which, as most Singaporeans know, also influences the prices of flats.
 
 Let's examine the relationship between HDB towns and prices next:
 
