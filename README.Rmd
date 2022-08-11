@@ -80,7 +80,7 @@ However, before we create the new variable, it would be helpful to understand th
 
 Even in 2022, very few resale flats have more than 12 to 15 floors, hence, everything above the 9th floor will be tagged as *"high"*.
 
-```{r storey_ranges, warning = FALSE, message = FALSE, echo = FALSE}
+```{r storey_ranges, warning = FALSE, message = FALSE, echo = FALSE, fig.align = "center"}
 #examine the values in storey_range for each year period
 resale_data %>% 
   group_by(storey_range) %>% 
@@ -113,7 +113,7 @@ Now that the data is cleaned, we can do some quick exploratory analyses.
 
 First, we know that generally, HDB flat prices tend to vary by storey levels. We can visualise this layman assumption here:
 
-```{r plot storeys and price, echo = FALSE}
+```{r plot storeys and price, echo = FALSE, fig.align = "center"}
 ggplot(resale_data, aes(x = storeys, y = resale_price/1000)) +
   geom_boxplot() +
   coord_flip() +
@@ -129,7 +129,7 @@ One possible explanation for near similar variations and ranges could be the sco
 
 Let's examine the relationship between HDB towns and prices next:
 
-```{r plot towns and price, echo = FALSE}
+```{r plot towns and price, echo = FALSE, fig.align = "center"}
 ggplot(resale_data, aes(x = reorder(town, resale_price, median), y = resale_price/1000)) +
   geom_boxplot() +
   coord_flip() +
@@ -186,7 +186,9 @@ This gives us a dataset with 38,695 observations - something much easier to work
 
 ### Analyses with filtered dataset
 
-```{r plot storeys and price with filtered data, echo = FALSE}
+Here, we repeat the analyses from the previous section using the filtered dataset.
+
+```{r plot storeys/towns and price with filtered data, echo = FALSE, fig.show="hold", out.width="50%"}
 ggplot(filtered_data, aes(x = storeys, y = resale_price/1000)) +
   geom_boxplot() +
   coord_flip() +
@@ -194,9 +196,7 @@ ggplot(filtered_data, aes(x = storeys, y = resale_price/1000)) +
        y = "Prices (thousands; SGD)",
        title = "Spread of HDB Resale Flat Prices by Storey Levels") +
   scale_y_continuous(breaks = seq(0, 1500, by = 200))
-```
 
-```{r plot towns and price with filtered data, echo = FALSE}
 ggplot(filtered_data, aes(x = reorder(town, resale_price, median), y = resale_price/1000)) +
   geom_boxplot() +
   coord_flip() +
@@ -206,7 +206,25 @@ ggplot(filtered_data, aes(x = reorder(town, resale_price, median), y = resale_pr
   scale_y_continuous(breaks = seq(0, 1500, by = 200))
 ```
 
-```{r plot flat type and price with filtered data, echo = FALSE}
+```{r compare median prices of storeys, include = FALSE}
+median_price_high <- filtered_data %>% 
+  filter(storeys == "high") %>% 
+  summarise(median(resale_price)) %>% 
+  pull()
+
+median_price_mid <- filtered_data %>% 
+  filter(storeys == "mid") %>% 
+  summarise(median(resale_price)) %>% 
+  pull()
+
+median_diff <- format((median_price_high - median_price_mid),
+                      big.mark   = ",",   big.interval = 3L,
+                      scientific = FALSE)
+```
+
+We also add another analysis:
+
+```{r plot flat type and price with filtered data, echo = FALSE, fig.align = "center"}
 ggplot(filtered_data, aes(x = flat_type2, y = resale_price/1000)) +
   geom_boxplot() +
   coord_flip() +
@@ -214,4 +232,36 @@ ggplot(filtered_data, aes(x = flat_type2, y = resale_price/1000)) +
        y = "Prices (thousands; SGD)",
        title = "Spread of HDB Resale Flat Prices by Flat Types") +
   scale_y_continuous(breaks = seq(0, 1500, by = 200))
+```
+
+We can make three observations here:
+
+For HDB Resale Flats sold from 2010 onwards,
+
+1. Apartments on higher floors (i.e., at least 11th floor) tend to be priced SGD `r median_diff` more than those on middle floors (i.e., 6th to 10th floors)
+2. Apartments in the areas nearer to the Central Business District (CBD) area of Singapore tend to be priced more than those further away, with those in mature estates priced higher than those in non-mature estates (see [here](https://www.propertyguru.com.sg/property-guides/non-mature-vs-mature-bto-55760) for list of such estates)
+3. Apartments with larger flat types tend to be priced higher than relatively smaller ones
+
+
+Another interesting observation is with the spread of resale prices by HDB towns. 
+Let's take a look at both the unfiltered (left) and filtered (right) data visualisations side by side again:
+
+```{r plot towns and price side, echo = FALSE, fig.show="hold", out.width="50%"}
+ggplot(resale_data, aes(x = reorder(town, resale_price, median), y = resale_price/1000)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(x = "Towns",
+       y = "Prices (thousands; SGD)",
+       title = "Spread of HDB Resale Flat Prices by HDB Towns for 1990 to 2022") +
+  scale_y_continuous(breaks = seq(0, 1500, by = 200)) +
+  theme(plot.title = element_text(size = 12))
+
+ggplot(filtered_data, aes(x = reorder(town, resale_price, median), y = resale_price/1000)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(x = " ",
+       y = "Prices (thousands; SGD)",
+       title = "Spread of HDB Resale Flat Prices by HDB Towns for 2010 to 2022") +
+  scale_y_continuous(breaks = seq(0, 1500, by = 200)) +
+  theme(plot.title = element_text(size = 12))
 ```

@@ -123,7 +123,7 @@ a new variable to categorise them.
 Even in 2022, very few resale flats have more than 12 to 15 floors,
 hence, everything above the 9th floor will be tagged as *“high”*.
 
-![](README_files/figure-gfm/storey_ranges-1.png)<!-- -->
+<img src="README_files/figure-gfm/storey_ranges-1.png" style="display: block; margin: auto;" />
 
 ## Exploratory Data Analysis
 
@@ -132,7 +132,7 @@ Now that the data is cleaned, we can do some quick exploratory analyses.
 First, we know that generally, HDB flat prices tend to vary by storey
 levels. We can visualise this layman assumption here:
 
-![](README_files/figure-gfm/plot%20storeys%20and%20price-1.png)<!-- -->
+<img src="README_files/figure-gfm/plot storeys and price-1.png" style="display: block; margin: auto;" />
 
 Although the variation and range of resale flat prices are relatively
 the same, the median prices for each of the storey categories seem to
@@ -147,7 +147,7 @@ flats.
 
 Let’s examine the relationship between HDB towns and prices next:
 
-![](README_files/figure-gfm/plot%20towns%20and%20price-1.png)<!-- -->
+<img src="README_files/figure-gfm/plot towns and price-1.png" style="display: block; margin: auto;" />
 
 It is therefore evident that HDB resale flat prices do vary by their
 towns.
@@ -183,8 +183,33 @@ considering the recency of the data.
 
 ### Analyses with filtered dataset
 
-![](README_files/figure-gfm/plot%20storeys%20and%20price%20with%20filtered%20data-1.png)<!-- -->
+Here, we repeat the analyses from the previous section using the
+filtered dataset.
 
-![](README_files/figure-gfm/plot%20towns%20and%20price%20with%20filtered%20data-1.png)<!-- -->
+<img src="README_files/figure-gfm/plot storeys/towns and price with filtered data-1.png" width="50%" /><img src="README_files/figure-gfm/plot storeys/towns and price with filtered data-2.png" width="50%" />
 
-![](README_files/figure-gfm/plot%20flat%20type%20and%20price%20with%20filtered%20data-1.png)<!-- -->
+We also add another analysis:
+
+<img src="README_files/figure-gfm/plot flat type and price with filtered data-1.png" style="display: block; margin: auto;" />
+
+We can make three observations here:
+
+For HDB Resale Flats sold from 2010 onwards,
+
+1.  Apartments on higher floors (i.e., at least 11th floor) tend to be
+    priced SGD 40,000 more than those on middle floors (i.e., 6th to
+    10th floors)
+2.  Apartments in the areas nearer to the Central Business District
+    (CBD) area of Singapore tend to be priced more than those further
+    away, with those in mature estates priced higher than those in
+    non-mature estates (see
+    [here](https://www.propertyguru.com.sg/property-guides/non-mature-vs-mature-bto-55760)
+    for list of such estates)
+3.  Apartments with larger flat types tend to be priced higher than
+    relatively smaller ones
+
+Another interesting observation is with the spread of resale prices by
+HDB towns. Let’s take a look at both the unfiltered (left) and filtered
+(right) data visualisations side by side again:
+
+<img src="README_files/figure-gfm/plot towns and price side-1.png" width="50%" /><img src="README_files/figure-gfm/plot towns and price side-2.png" width="50%" />
