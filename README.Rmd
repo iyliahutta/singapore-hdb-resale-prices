@@ -56,7 +56,7 @@ head(latest_data)
 
 From these, we see that the data structure is generally similar. The only difference being that the "Jan 2015 - Dec 2016" and "Jan 2017 onwards" data consists of an extra column `remaining_lease`, indicating the remaining years of lease for the houses in the datasets. For the purpose of this project then, we will be dropping this column to maintain data uniformity.
 
-```{r drop excess columns, echo = FALSE}
+```{r drop excess columns, include = FALSE}
 dec2016_data <- dec2016_data %>% 
   select(!remaining_lease)
 
@@ -68,7 +68,7 @@ latest_data <- latest_data %>%
 head(latest_data)
 ```
 
-```{r union datasets, echo = FALSE}
+```{r union datasets, include = FALSE}
 resale_data <- bind_rows(nineties_data,feb2012_data,dec2014_data,dec2016_data,latest_data)
 
 head(resale_data)
