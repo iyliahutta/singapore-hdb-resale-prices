@@ -249,14 +249,19 @@ flats, which by common logic, does make sense. The only “outlier” in
 this plot is that of HDB resale flats in Sembawang, which saw a downward
 trend followed by a spike in the late 2010s. This could have been due to
 recent urban developments in the Canberra area, located near Sembawang.
+
 Nevertheless, when looking at the data as a whole, it still shows that
-the resale prices increased for more newer HDB resale flats (*p-value*
-of Kruskal-Wallis Test \< 0.05).
+the resale prices increased for newer HDB resale flats (rho = 0.251, *p*
+\< 0,05).
 
     ## 
-    ##  Kruskal-Wallis rank sum test
+    ##  Spearman's rank correlation rho
     ## 
-    ## data:  median_price_by_lease by lease_commence_date
-    ## Kruskal-Wallis chi-squared = 8531.5, df = 51, p-value < 2.2e-16
+    ## data:  filtered_data$lease_commence_date and filtered_data$median_price_by_lease
+    ## S = 7.2359e+12, p-value < 2.2e-16
+    ## alternative hypothesis: true rho is not equal to 0
+    ## sample estimates:
+    ##       rho 
+    ## 0.2506549
 
 <img src="README_files/figure-gfm/plot lease date and price-1.png" style="display: block; margin: auto;" />

@@ -292,18 +292,26 @@ ggplot(aes(x = lease_commence_date, y = median_price_by_lease/1000)) +
   facet_wrap(~town)
 ```
 
-The plot above shows that there is a general upward trend for newer HDB flats, which by common logic, does make sense. The only "outlier" in this plot is that of HDB resale flats in Sembawang, which saw a downward trend followed by a spike in the late 2010s. This could have been due to recent urban developments in the Canberra area, located near Sembawang. Nevertheless, when looking at the data as a whole, it still shows that the resale prices increased for more newer HDB resale flats (*p-value* of Kruskal-Wallis Test < 0.05).
+The plot above shows that there is a general upward trend for newer HDB flats, which by common logic, does make sense. The only "outlier" in this plot is that of HDB resale flats in Sembawang, which saw a downward trend followed by a spike in the late 2010s. This could have been due to recent urban developments in the Canberra area, located near Sembawang.
 
-```{r kruskal-wallis test for association between price and lease year, echo = FALSE}
+```{r spearman correlation for correlation between price and lease year, echo = FALSE}
 filtered_data <- filtered_data %>%
   group_by(town, lease_commence_date) %>% 
   mutate(median_price_by_lease = median(resale_price)) %>% 
   ungroup()
 
-kruskal.test(
-  median_price_by_lease ~ lease_commence_date,
-  data = filtered_data
-)
+corr_median_price_lease <- format(round(cor(filtered_data$lease_commence_date, 
+    filtered_data$median_price_by_lease, 
+    method = "spearman"), 3), nsmall = 3)
+```
+
+Nevertheless, when looking at the data as a whole, it still shows that the resale prices increased for  newer HDB resale flats (rho = `r corr_median_price_lease`, *p* < 0,05).
+
+```{r spearman correlation test for correlation between price and lease year, echo = FALSE}
+cor.test(filtered_data$lease_commence_date, 
+    filtered_data$median_price_by_lease, 
+    method = "spearman",
+    exact = FALSE)
 ```
 
 ```{r plot lease date and price, echo = FALSE, message = FALSE, fig.align = "center"}
