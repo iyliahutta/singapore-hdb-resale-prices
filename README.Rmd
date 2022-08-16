@@ -8,7 +8,7 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, root.dir = "C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices")
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r packages, include = FALSE}
@@ -34,11 +34,11 @@ This project therefore seeks to analyse the prices of Singapore's HDB Resale Fla
 
 ```{r import, message = FALSE, echo = FALSE}
 #import data as objects
-nineties_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-approval-date-1990-1999.csv")
-feb2012_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-approval-date-2000-feb-2012.csv")
-dec2014_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-registration-date-from-mar-2012-to-dec-2014.csv")
-dec2016_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-registration-date-from-jan-2015-to-dec-2016.csv")
-latest_data <- read_csv("C:/Users/iylia.hutta/OneDrive - Meltwater/Desktop/Data Stuff/Singapore HDB Flat Resale Prices/Data/resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv")
+nineties_data <- read_csv("~/Desktop/Data Stuff/singapore-hdb-resale-prices/Data/resale-flat-prices-based-on-approval-date-1990-1999.csv")
+feb2012_data <- read_csv("~/Desktop/Data Stuff/singapore-hdb-resale-prices/Data/resale-flat-prices-based-on-approval-date-2000-feb-2012.csv")
+dec2014_data <- read_csv("~/Desktop/Data Stuff/singapore-hdb-resale-prices/Data/resale-flat-prices-based-on-registration-date-from-mar-2012-to-dec-2014.csv")
+dec2016_data <- read_csv("~/Desktop/Data Stuff/singapore-hdb-resale-prices/Data/resale-flat-prices-based-on-registration-date-from-jan-2015-to-dec-2016.csv")
+latest_data <- read_csv("~/Desktop/Data Stuff/singapore-hdb-resale-prices/Data/resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv")
 ```
 
 
@@ -266,3 +266,59 @@ ggplot(filtered_data, aes(x = reorder(town, resale_price, median), y = resale_pr
   scale_y_continuous(breaks = seq(0, 1500, by = 200)) +
   theme(plot.title = element_text(size = 12))
 ```
+
+We see that when comparing the range of HDB resale flat prices for 1990 to 2022 vs. for 2010 to 2022, the second observation above does not hold. The simple explanation here is that, many estates (e.g., Punggol, Sengkang, Central Area) did not have many HDB flats built prior to 2010 (or even 2000). 
+
+As Singapore developed further, with land scarcity increasing, more HDB flats needed to be built closer to the CBD to meet the demands of working professionals whose offices were located there. As such, even mature estates such as Queenstown and Bukit Merah, being some of the oldest estates in Singapore, with their newly developed HDB flats in the early 2000s, started seeing increased resale prices due to their proximity to the CBD. Furthermore, with the development of Sengkang and Punggol in line with more recent trends in HDB resale flat prices, these newer flats came out on top in terms of resale prices when being compared to flats that were built long before 2010, or even 2000.
+
+This brings us to another variable that we have not investigated: the lease commencement date. The years variable used thus far were the years that the HDB flat was put on the resale market. As such, the lease commencement date would give an indicator of the age of the HDB flat.
+
+Let's take a look at the visualisation here:
+
+```{r plot lease date and price by towns, echo = FALSE, message = FALSE, fig.align = "center"}
+filtered_data %>%
+  group_by(town, lease_commence_date) %>% 
+  mutate(median_price_by_lease = median(resale_price)) %>% 
+  ungroup() %>% 
+ggplot(aes(x = lease_commence_date, y = median_price_by_lease/1000)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, color = "red") +
+  labs(x = "Lease Commencement Year",
+       y = "Prices (thousands; SGD)",
+       title = "Median HDB Resale Flat Prices by Lease Date, grouped by HDB town") +
+  scale_y_continuous(breaks = seq(0, 1500, by = 200)) +
+  scale_x_continuous(breaks = seq(1960, 2020, by = 20)) +
+  theme(plot.title = element_text(size = 12)) +
+  facet_wrap(~town)
+```
+
+The plot above shows that there is a general upward trend for newer HDB flats, which by common logic, does make sense. The only "outlier" in this plot is that of HDB resale flats in Sembawang, which saw a downward trend followed by a spike in the late 2010s. This could have been due to recent urban developments in the Canberra area, located near Sembawang. Nevertheless, when looking at the data as a whole, it still shows that the resale prices increased for more newer HDB resale flats (*p-value* of Kruskal-Wallis Test < 0.05).
+
+```{r kruskal-wallis test for association between price and lease year, echo = FALSE}
+filtered_data <- filtered_data %>%
+  group_by(town, lease_commence_date) %>% 
+  mutate(median_price_by_lease = median(resale_price)) %>% 
+  ungroup()
+
+kruskal.test(
+  median_price_by_lease ~ lease_commence_date,
+  data = filtered_data
+)
+```
+
+```{r plot lease date and price, echo = FALSE, message = FALSE, fig.align = "center"}
+filtered_data %>%
+  group_by(town, lease_commence_date) %>% 
+  mutate(median_price_by_lease = median(resale_price)) %>% 
+  ungroup() %>% 
+ggplot(aes(x = lease_commence_date, y = median_price_by_lease/1000)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, color = "red") +
+  labs(x = "Lease Commencement Year",
+       y = "Prices (thousands; SGD)",
+       title = "Median HDB Resale Flat Prices by Lease Date") +
+  scale_y_continuous(breaks = seq(0, 1500, by = 200)) +
+  scale_x_continuous(breaks = seq(1960, 2020, by = 20)) +
+  theme(plot.title = element_text(size = 12))
+```
+

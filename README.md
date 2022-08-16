@@ -49,7 +49,7 @@ which were sourced from GovTech’s open data portal,
 First, we will examine the data to understand its structure and
 contents.
 
-    ## # A tibble: 6 × 10
+    ## # A tibble: 6 x 10
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
     ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
     ## 1 1990… ANG … 1 ROOM    309   ANG MO KIO… 10 TO 12                 31 IMPROVED  
@@ -60,7 +60,7 @@ contents.
     ## 6 1990… ANG … 3 ROOM    211   ANG MO KIO… 01 TO 03                 67 NEW GENER…
     ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
 
-    ## # A tibble: 6 × 10
+    ## # A tibble: 6 x 10
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
     ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
     ## 1 2000… ANG … 3 ROOM    170   ANG MO KIO… 07 TO 09                 69 Improved  
@@ -71,7 +71,7 @@ contents.
     ## 6 2000… ANG … 3 ROOM    320   ANG MO KIO… 04 TO 06                 73 New Gener…
     ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
 
-    ## # A tibble: 6 × 10
+    ## # A tibble: 6 x 10
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
     ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
     ## 1 2012… ANG … 2 ROOM    172   ANG MO KIO… 06 TO 10                 45 Improved  
@@ -82,7 +82,7 @@ contents.
     ## 6 2012… ANG … 3 ROOM    154   ANG MO KIO… 01 TO 05                 68 New Gener…
     ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
 
-    ## # A tibble: 6 × 11
+    ## # A tibble: 6 x 11
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
     ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
     ## 1 2015… ANG … 3 ROOM    174   ANG MO KIO… 07 TO 09                 60 Improved  
@@ -94,7 +94,7 @@ contents.
     ## # … with 3 more variables: lease_commence_date <dbl>, remaining_lease <dbl>,
     ## #   resale_price <dbl>
 
-    ## # A tibble: 6 × 11
+    ## # A tibble: 6 x 11
     ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
     ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
     ## 1 2017… ANG … 2 ROOM    406   ANG MO KIO… 10 TO 12                 44 Improved  
@@ -167,7 +167,7 @@ we will narrow down the dataset by three conditions:
 
 <!-- -->
 
-    ## # A tibble: 6 × 13
+    ## # A tibble: 6 x 13
     ##   month   year town  flat_type flat_type2 block street_name storey_range storeys
     ##   <chr>  <int> <chr> <chr>     <fct>      <chr> <chr>       <chr>        <fct>  
     ## 1 2010-…  2010 ANG … 4 ROOM    4-room     414   ANG MO KIO… 07 TO 09     mid    
@@ -217,3 +217,46 @@ Let’s take a look at both the unfiltered (left) and filtered (right)
 data visualisations side by side:
 
 <img src="README_files/figure-gfm/plot towns and price side-1.png" width="50%" /><img src="README_files/figure-gfm/plot towns and price side-2.png" width="50%" />
+
+We see that when comparing the range of HDB resale flat prices for 1990
+to 2022 vs. for 2010 to 2022, the second observation above does not
+hold. The simple explanation here is that, many estates (e.g., Punggol,
+Sengkang, Central Area) did not have many HDB flats built prior to 2010
+(or even 2000).
+
+As Singapore developed further, with land scarcity increasing, more HDB
+flats needed to be built closer to the CBD to meet the demands of
+working professionals whose offices were located there. As such, even
+mature estates such as Queenstown and Bukit Merah, being some of the
+oldest estates in Singapore, with their newly developed HDB flats in the
+early 2000s, started seeing increased resale prices due to their
+proximity to the CBD. Furthermore, with the development of Sengkang and
+Punggol in line with more recent trends in HDB resale flat prices, these
+newer flats came out on top in terms of resale prices when being
+compared to flats that were built long before 2010, or even 2000.
+
+This brings us to another variable that we have not investigated: the
+lease commencement date. The years variable used thus far were the years
+that the HDB flat was put on the resale market. As such, the lease
+commencement date would give an indicator of the age of the HDB flat.
+
+Let’s take a look at the visualisation here:
+
+<img src="README_files/figure-gfm/plot lease date and price by towns-1.png" style="display: block; margin: auto;" />
+
+The plot above shows that there is a general upward trend for newer HDB
+flats, which by common logic, does make sense. The only “outlier” in
+this plot is that of HDB resale flats in Sembawang, which saw a downward
+trend followed by a spike in the late 2010s. This could have been due to
+recent urban developments in the Canberra area, located near Sembawang.
+Nevertheless, when looking at the data as a whole, it still shows that
+the resale prices increased for more newer HDB resale flats (*p-value*
+of Kruskal-Wallis Test \< 0.05).
+
+    ## 
+    ##  Kruskal-Wallis rank sum test
+    ## 
+    ## data:  median_price_by_lease by lease_commence_date
+    ## Kruskal-Wallis chi-squared = 8531.5, df = 51, p-value < 2.2e-16
+
+<img src="README_files/figure-gfm/plot lease date and price-1.png" style="display: block; margin: auto;" />
