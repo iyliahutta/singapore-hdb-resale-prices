@@ -1,13 +1,13 @@
 Singapore HDB Resale Flat Prices for 1990 - 2022
 ================
 
--   <a href="#introduction" id="toc-introduction">Introduction</a>
--   <a href="#data-exploration" id="toc-data-exploration">Data
-    Exploration</a>
--   <a href="#exploratory-data-analysis"
-    id="toc-exploratory-data-analysis">Exploratory Data Analysis</a>
-    -   <a href="#analyses-for-2010---2022"
-        id="toc-analyses-for-2010---2022">Analyses for 2010 - 2022</a>
+- <a href="#introduction" id="toc-introduction">Introduction</a>
+- <a href="#data-exploration" id="toc-data-exploration">Data
+  Exploration</a>
+- <a href="#exploratory-data-analysis"
+  id="toc-exploratory-data-analysis">Exploratory Data Analysis</a>
+  - <a href="#analyses-for-2010---2022"
+    id="toc-analyses-for-2010---2022">Analyses for 2010 - 2022</a>
 
 ## Introduction
 
@@ -20,11 +20,11 @@ generally [two
 ways](https://www.propertyguru.com.sg/property-guides/the-different-types-of-housing-in-singapore-9916)
 to do this:
 
--   [Public
-    Housing](https://www.hdb.gov.sg/about-us/our-role/public-housing-a-singapore-icon)
-    -   Brand new Built-to-Order (BTO) Flats (or apartments)
-    -   Resale Flats
--   Private Housing (e.g., condominiums, landed property, etc.)
+- [Public
+  Housing](https://www.hdb.gov.sg/about-us/our-role/public-housing-a-singapore-icon)
+  - Brand new Built-to-Order (BTO) Flats (or apartments)
+  - Resale Flats
+- Private Housing (e.g., condominiums, landed property, etc.)
 
 Whilst BTOs tend to be the choice of most young Singaporean couples, my
 current and potential future situation may push my partner and I to look
@@ -49,62 +49,67 @@ which were sourced from GovTech’s open data portal,
 First, we will examine the data to understand its structure and
 contents.
 
-    ## # A tibble: 6 x 10
-    ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
-    ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
-    ## 1 1990… ANG … 1 ROOM    309   ANG MO KIO… 10 TO 12                 31 IMPROVED  
-    ## 2 1990… ANG … 1 ROOM    309   ANG MO KIO… 04 TO 06                 31 IMPROVED  
-    ## 3 1990… ANG … 1 ROOM    309   ANG MO KIO… 10 TO 12                 31 IMPROVED  
-    ## 4 1990… ANG … 1 ROOM    309   ANG MO KIO… 07 TO 09                 31 IMPROVED  
-    ## 5 1990… ANG … 3 ROOM    216   ANG MO KIO… 04 TO 06                 73 NEW GENER…
-    ## 6 1990… ANG … 3 ROOM    211   ANG MO KIO… 01 TO 03                 67 NEW GENER…
-    ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
+    ## # A tibble: 6 × 10
+    ##   month   town     flat_…¹ block stree…² store…³ floor…⁴ flat_…⁵ lease…⁶ resal…⁷
+    ##   <chr>   <chr>    <chr>   <chr> <chr>   <chr>     <dbl> <chr>     <dbl>   <dbl>
+    ## 1 1990-01 ANG MO … 1 ROOM  309   ANG MO… 10 TO …      31 IMPROV…    1977    9000
+    ## 2 1990-01 ANG MO … 1 ROOM  309   ANG MO… 04 TO …      31 IMPROV…    1977    6000
+    ## 3 1990-01 ANG MO … 1 ROOM  309   ANG MO… 10 TO …      31 IMPROV…    1977    8000
+    ## 4 1990-01 ANG MO … 1 ROOM  309   ANG MO… 07 TO …      31 IMPROV…    1977    6000
+    ## 5 1990-01 ANG MO … 3 ROOM  216   ANG MO… 04 TO …      73 NEW GE…    1976   47200
+    ## 6 1990-01 ANG MO … 3 ROOM  211   ANG MO… 01 TO …      67 NEW GE…    1977   46000
+    ## # … with abbreviated variable names ¹​flat_type, ²​street_name, ³​storey_range,
+    ## #   ⁴​floor_area_sqm, ⁵​flat_model, ⁶​lease_commence_date, ⁷​resale_price
 
-    ## # A tibble: 6 x 10
-    ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
-    ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
-    ## 1 2000… ANG … 3 ROOM    170   ANG MO KIO… 07 TO 09                 69 Improved  
-    ## 2 2000… ANG … 3 ROOM    174   ANG MO KIO… 04 TO 06                 61 Improved  
-    ## 3 2000… ANG … 3 ROOM    216   ANG MO KIO… 07 TO 09                 73 New Gener…
-    ## 4 2000… ANG … 3 ROOM    215   ANG MO KIO… 07 TO 09                 73 New Gener…
-    ## 5 2000… ANG … 3 ROOM    218   ANG MO KIO… 07 TO 09                 67 New Gener…
-    ## 6 2000… ANG … 3 ROOM    320   ANG MO KIO… 04 TO 06                 73 New Gener…
-    ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
+    ## # A tibble: 6 × 10
+    ##   month   town     flat_…¹ block stree…² store…³ floor…⁴ flat_…⁵ lease…⁶ resal…⁷
+    ##   <chr>   <chr>    <chr>   <chr> <chr>   <chr>     <dbl> <chr>     <dbl>   <dbl>
+    ## 1 2000-01 ANG MO … 3 ROOM  170   ANG MO… 07 TO …      69 Improv…    1986  147000
+    ## 2 2000-01 ANG MO … 3 ROOM  174   ANG MO… 04 TO …      61 Improv…    1986  144000
+    ## 3 2000-01 ANG MO … 3 ROOM  216   ANG MO… 07 TO …      73 New Ge…    1976  159000
+    ## 4 2000-01 ANG MO … 3 ROOM  215   ANG MO… 07 TO …      73 New Ge…    1976  167000
+    ## 5 2000-01 ANG MO … 3 ROOM  218   ANG MO… 07 TO …      67 New Ge…    1976  163000
+    ## 6 2000-01 ANG MO … 3 ROOM  320   ANG MO… 04 TO …      73 New Ge…    1977  157000
+    ## # … with abbreviated variable names ¹​flat_type, ²​street_name, ³​storey_range,
+    ## #   ⁴​floor_area_sqm, ⁵​flat_model, ⁶​lease_commence_date, ⁷​resale_price
 
-    ## # A tibble: 6 x 10
-    ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
-    ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
-    ## 1 2012… ANG … 2 ROOM    172   ANG MO KIO… 06 TO 10                 45 Improved  
-    ## 2 2012… ANG … 2 ROOM    510   ANG MO KIO… 01 TO 05                 44 Improved  
-    ## 3 2012… ANG … 3 ROOM    610   ANG MO KIO… 06 TO 10                 68 New Gener…
-    ## 4 2012… ANG … 3 ROOM    474   ANG MO KIO… 01 TO 05                 67 New Gener…
-    ## 5 2012… ANG … 3 ROOM    604   ANG MO KIO… 06 TO 10                 67 New Gener…
-    ## 6 2012… ANG … 3 ROOM    154   ANG MO KIO… 01 TO 05                 68 New Gener…
-    ## # … with 2 more variables: lease_commence_date <dbl>, resale_price <dbl>
+    ## # A tibble: 6 × 10
+    ##   month   town     flat_…¹ block stree…² store…³ floor…⁴ flat_…⁵ lease…⁶ resal…⁷
+    ##   <chr>   <chr>    <chr>   <chr> <chr>   <chr>     <dbl> <chr>     <dbl>   <dbl>
+    ## 1 2012-03 ANG MO … 2 ROOM  172   ANG MO… 06 TO …      45 Improv…    1986  250000
+    ## 2 2012-03 ANG MO … 2 ROOM  510   ANG MO… 01 TO …      44 Improv…    1980  265000
+    ## 3 2012-03 ANG MO … 3 ROOM  610   ANG MO… 06 TO …      68 New Ge…    1980  315000
+    ## 4 2012-03 ANG MO … 3 ROOM  474   ANG MO… 01 TO …      67 New Ge…    1984  320000
+    ## 5 2012-03 ANG MO … 3 ROOM  604   ANG MO… 06 TO …      67 New Ge…    1980  321000
+    ## 6 2012-03 ANG MO … 3 ROOM  154   ANG MO… 01 TO …      68 New Ge…    1981  321000
+    ## # … with abbreviated variable names ¹​flat_type, ²​street_name, ³​storey_range,
+    ## #   ⁴​floor_area_sqm, ⁵​flat_model, ⁶​lease_commence_date, ⁷​resale_price
 
-    ## # A tibble: 6 x 11
-    ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
-    ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
-    ## 1 2015… ANG … 3 ROOM    174   ANG MO KIO… 07 TO 09                 60 Improved  
-    ## 2 2015… ANG … 3 ROOM    541   ANG MO KIO… 01 TO 03                 68 New Gener…
-    ## 3 2015… ANG … 3 ROOM    163   ANG MO KIO… 01 TO 03                 69 New Gener…
-    ## 4 2015… ANG … 3 ROOM    446   ANG MO KIO… 01 TO 03                 68 New Gener…
-    ## 5 2015… ANG … 3 ROOM    557   ANG MO KIO… 07 TO 09                 68 New Gener…
-    ## 6 2015… ANG … 3 ROOM    603   ANG MO KIO… 07 TO 09                 67 New Gener…
-    ## # … with 3 more variables: lease_commence_date <dbl>, remaining_lease <dbl>,
-    ## #   resale_price <dbl>
+    ## # A tibble: 6 × 11
+    ##   month   town     flat_…¹ block stree…² store…³ floor…⁴ flat_…⁵ lease…⁶ remai…⁷
+    ##   <chr>   <chr>    <chr>   <chr> <chr>   <chr>     <dbl> <chr>     <dbl>   <dbl>
+    ## 1 2015-01 ANG MO … 3 ROOM  174   ANG MO… 07 TO …      60 Improv…    1986      70
+    ## 2 2015-01 ANG MO … 3 ROOM  541   ANG MO… 01 TO …      68 New Ge…    1981      65
+    ## 3 2015-01 ANG MO … 3 ROOM  163   ANG MO… 01 TO …      69 New Ge…    1980      64
+    ## 4 2015-01 ANG MO … 3 ROOM  446   ANG MO… 01 TO …      68 New Ge…    1979      63
+    ## 5 2015-01 ANG MO … 3 ROOM  557   ANG MO… 07 TO …      68 New Ge…    1980      64
+    ## 6 2015-01 ANG MO … 3 ROOM  603   ANG MO… 07 TO …      67 New Ge…    1980      64
+    ## # … with 1 more variable: resale_price <dbl>, and abbreviated variable names
+    ## #   ¹​flat_type, ²​street_name, ³​storey_range, ⁴​floor_area_sqm, ⁵​flat_model,
+    ## #   ⁶​lease_commence_date, ⁷​remaining_lease
 
-    ## # A tibble: 6 x 11
-    ##   month town  flat_type block street_name storey_range floor_area_sqm flat_model
-    ##   <chr> <chr> <chr>     <chr> <chr>       <chr>                 <dbl> <chr>     
-    ## 1 2017… ANG … 2 ROOM    406   ANG MO KIO… 10 TO 12                 44 Improved  
-    ## 2 2017… ANG … 3 ROOM    108   ANG MO KIO… 01 TO 03                 67 New Gener…
-    ## 3 2017… ANG … 3 ROOM    602   ANG MO KIO… 01 TO 03                 67 New Gener…
-    ## 4 2017… ANG … 3 ROOM    465   ANG MO KIO… 04 TO 06                 68 New Gener…
-    ## 5 2017… ANG … 3 ROOM    601   ANG MO KIO… 01 TO 03                 67 New Gener…
-    ## 6 2017… ANG … 3 ROOM    150   ANG MO KIO… 01 TO 03                 68 New Gener…
-    ## # … with 3 more variables: lease_commence_date <dbl>, remaining_lease <chr>,
-    ## #   resale_price <dbl>
+    ## # A tibble: 6 × 11
+    ##   month   town     flat_…¹ block stree…² store…³ floor…⁴ flat_…⁵ lease…⁶ remai…⁷
+    ##   <chr>   <chr>    <chr>   <chr> <chr>   <chr>     <dbl> <chr>     <dbl> <chr>  
+    ## 1 2017-01 ANG MO … 2 ROOM  406   ANG MO… 10 TO …      44 Improv…    1979 61 yea…
+    ## 2 2017-01 ANG MO … 3 ROOM  108   ANG MO… 01 TO …      67 New Ge…    1978 60 yea…
+    ## 3 2017-01 ANG MO … 3 ROOM  602   ANG MO… 01 TO …      67 New Ge…    1980 62 yea…
+    ## 4 2017-01 ANG MO … 3 ROOM  465   ANG MO… 04 TO …      68 New Ge…    1980 62 yea…
+    ## 5 2017-01 ANG MO … 3 ROOM  601   ANG MO… 01 TO …      67 New Ge…    1980 62 yea…
+    ## 6 2017-01 ANG MO … 3 ROOM  150   ANG MO… 01 TO …      68 New Ge…    1981 63 yea…
+    ## # … with 1 more variable: resale_price <dbl>, and abbreviated variable names
+    ## #   ¹​flat_type, ²​street_name, ³​storey_range, ⁴​floor_area_sqm, ⁵​flat_model,
+    ## #   ⁶​lease_commence_date, ⁷​remaining_lease
 
 From these, we see that the data structure is generally similar. The
 only difference being that the “Jan 2015 - Dec 2016” and “Jan 2017
@@ -158,26 +163,27 @@ At this point, as mentioned above, the range of data is still massive
 with about 871,671 observations. For ease of and more focused analyses,
 we will narrow down the dataset by three conditions:
 
--   Apartments from 2010 onwards (because we want newer houses and
-    buildings)
--   Apartments of at least 4-room and not multi-generation (so that we
-    have a flat that is big enough to house at least 2 children)
--   Apartments located on “mid” or “high” storeys (as we simply prefer
-    being higher up and for the higher resale value over time)
+- Apartments from 2010 onwards (because we want newer houses and
+  buildings)
+- Apartments of at least 4-room and not multi-generation (so that we
+  have a flat that is big enough to house at least 2 children)
+- Apartments located on “mid” or “high” storeys (as we simply prefer
+  being higher up and for the higher resale value over time)
 
 <!-- -->
 
-    ## # A tibble: 6 x 13
-    ##   month   year town  flat_type flat_type2 block street_name storey_range storeys
-    ##   <chr>  <int> <chr> <chr>     <fct>      <chr> <chr>       <chr>        <fct>  
-    ## 1 2010-…  2010 ANG … 4 ROOM    4-room     414   ANG MO KIO… 07 TO 09     mid    
-    ## 2 2010-…  2010 ANG … 4 ROOM    4-room     472   ANG MO KIO… 13 TO 15     high   
-    ## 3 2010-…  2010 ANG … 4 ROOM    4-room     624   ANG MO KIO… 10 TO 12     high   
-    ## 4 2010-…  2010 ANG … 4 ROOM    4-room     643   ANG MO KIO… 07 TO 09     mid    
-    ## 5 2010-…  2010 ANG … 5 ROOM    5-room     418   ANG MO KIO… 07 TO 09     mid    
-    ## 6 2010-…  2010 ANG … 5 ROOM    5-room     545   ANG MO KIO… 13 TO 15     high   
-    ## # … with 4 more variables: floor_area_sqm <dbl>, flat_model <chr>,
-    ## #   lease_commence_date <dbl>, resale_price <dbl>
+    ## # A tibble: 6 × 13
+    ##   month    year town       flat_…¹ flat_…² block stree…³ store…⁴ storeys floor…⁵
+    ##   <chr>   <int> <chr>      <chr>   <fct>   <chr> <chr>   <chr>   <fct>     <dbl>
+    ## 1 2010-01  2010 ANG MO KIO 4 ROOM  4-room  414   ANG MO… 07 TO … mid          92
+    ## 2 2010-01  2010 ANG MO KIO 4 ROOM  4-room  472   ANG MO… 13 TO … high         92
+    ## 3 2010-01  2010 ANG MO KIO 4 ROOM  4-room  624   ANG MO… 10 TO … high         93
+    ## 4 2010-01  2010 ANG MO KIO 4 ROOM  4-room  643   ANG MO… 07 TO … mid         100
+    ## 5 2010-01  2010 ANG MO KIO 5 ROOM  5-room  418   ANG MO… 07 TO … mid         148
+    ## 6 2010-01  2010 ANG MO KIO 5 ROOM  5-room  545   ANG MO… 13 TO … high        118
+    ## # … with 3 more variables: flat_model <chr>, lease_commence_date <dbl>,
+    ## #   resale_price <dbl>, and abbreviated variable names ¹​flat_type, ²​flat_type2,
+    ## #   ³​street_name, ⁴​storey_range, ⁵​floor_area_sqm
 
 This gives us a dataset with 38,695 observations - something much easier
 to work with and relatively more reflective of current trends,
