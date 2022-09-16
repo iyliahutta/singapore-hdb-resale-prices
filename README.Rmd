@@ -329,6 +329,3 @@ ggplot(aes(x = lease_commence_date, y = median_price_by_lease/1000)) +
   scale_x_continuous(breaks = seq(1960, 2020, by = 20)) +
   theme(plot.title = element_text(size = 12))
 ```
-
-
-testing this here
