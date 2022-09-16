@@ -271,3 +271,5 @@ the resale prices increased for newer HDB resale flats (rho = 0.251, *p*
     ## 0.2506549
 
 <img src="README_files/figure-gfm/plot lease date and price-1.png" style="display: block; margin: auto;" />
+
+testing this here
