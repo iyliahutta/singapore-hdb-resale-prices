@@ -333,6 +333,7 @@ ggplot(aes(x = lease_commence_date, y = median_price_by_lease/1000)) +
 
 In predicting HDB resale prices, the exploratory analyses revealed some key variables:
 - Flat-type (e.g., 4-room, 5-room, Executive)
+  - This variable is synonymous with the floor area of the house, which is represented by the `floor_area_sqm` variable
 - Year of sale
 - Year of lease commencement (i.e., indicating the remaining length of the house lease at point of sale)
 - Storeys (e.g., Mid or High floors)
@@ -345,8 +346,8 @@ For the town groupings by region, we will use the information found [here](https
 ```{r create variable for length of lease, echo = FALSE}
 filtered_data <- filtered_data %>% 
   mutate(year = as.numeric(year)) %>% 
-  mutate(lease_length = year-lease_commence_date) %>% 
-  relocate(lease_length, .after = lease_commence_date)
+  mutate(remaining_lease_length = 99-(year-lease_commence_date)) %>% 
+  relocate(remaining_lease_length, .after = lease_commence_date)
 ```
 
 ```{r create variable for region, echo = FALSE}
@@ -362,3 +363,9 @@ filtered_data <- filtered_data %>%
   levels = c("central", "east", "north", "north-east", "west"))) %>% 
   relocate(region, .after = town)
 ```
+
+As such, the feature variables we will be using to predict HDB resale prices would be:
+- Floor area in sqm (`floor_area_sqm`)
+- Remaining lease length in years (`remaining_lease_length`)
+- Region (`region`)
+- Floor level (`storeys`)
