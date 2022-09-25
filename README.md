@@ -278,12 +278,16 @@ the resale prices increased for newer HDB resale flats (rho = 0.251, *p*
 ### Choosing feature variables to predict HDB resale prices
 
 In predicting HDB resale prices, the exploratory analyses revealed some
-key variables: - Flat-type (e.g., 4-room, 5-room, Executive) - This
-variable is synonymous with the floor area of the house, which is
-represented by the `floor_area_sqm` variable - Year of sale - Year of
-lease commencement (i.e., indicating the remaining length of the house
-lease at point of sale) - Storeys (e.g., Mid or High floors) - Region
-(i.e., indicated by Town, which indicates proximity to the CBD)
+key variables:
+
+- Flat-type (e.g., 4-room, 5-room, Executive)
+  - This variable is synonymous with the floor area of the house, which
+    is represented by the `floor_area_sqm` variable
+- Year of sale
+- Year of lease commencement (i.e., indicating the remaining length of
+  the house lease at point of sale)
+- Storeys (e.g., Mid or High floors)
+- Region (i.e., indicated by Town, which indicates proximity to the CBD)
 
 Out of these variables, we will need to create or calculate new
 variables for the length of housing lease at point of sale and for the
@@ -293,6 +297,9 @@ For the town groupings by region, we will use the information found
 [here](https://en.wikipedia.org/wiki/Regions_of_Singapore).
 
 As such, the feature variables we will be using to predict HDB resale
-prices would be: - Floor area in sqm (`floor_area_sqm`) - Remaining
-lease length in years (`remaining_lease_length`) - Region (`region`) -
-Floor level (`storeys`)
+prices would be:
+
+- Floor area in sqm (`floor_area_sqm`)
+- Remaining lease length in years (`remaining_lease_length`)
+- Region (`region`)
+- Floor level (`storeys`)

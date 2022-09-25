@@ -332,6 +332,7 @@ ggplot(aes(x = lease_commence_date, y = median_price_by_lease/1000)) +
 ### Choosing feature variables to predict HDB resale prices
 
 In predicting HDB resale prices, the exploratory analyses revealed some key variables:
+
 - Flat-type (e.g., 4-room, 5-room, Executive)
   - This variable is synonymous with the floor area of the house, which is represented by the `floor_area_sqm` variable
 - Year of sale
@@ -365,6 +366,7 @@ filtered_data <- filtered_data %>%
 ```
 
 As such, the feature variables we will be using to predict HDB resale prices would be:
+
 - Floor area in sqm (`floor_area_sqm`)
 - Remaining lease length in years (`remaining_lease_length`)
 - Region (`region`)
