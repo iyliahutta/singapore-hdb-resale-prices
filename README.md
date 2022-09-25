@@ -8,6 +8,9 @@ Singapore HDB Resale Flat Prices for 1990 - 2022
   id="toc-exploratory-data-analysis">Exploratory Data Analysis</a>
   - <a href="#analyses-for-2010---2022"
     id="toc-analyses-for-2010---2022">Analyses for 2010 - 2022</a>
+  - <a href="#choosing-feature-variables-to-predict-hdb-resale-prices"
+    id="toc-choosing-feature-variables-to-predict-hdb-resale-prices">Choosing
+    feature variables to predict HDB resale prices</a>
 
 ## Introduction
 
@@ -271,3 +274,5 @@ the resale prices increased for newer HDB resale flats (rho = 0.251, *p*
     ## 0.2506549
 
 <img src="README_files/figure-gfm/plot lease date and price-1.png" style="display: block; margin: auto;" />
+
+### Choosing feature variables to predict HDB resale prices

@@ -16,7 +16,6 @@ library(tidyverse)
 library(readr)
 ```
 
-
 ## Introduction
 
 As a millenial growing up in Singapore and starting out in my first job, one of my life's goals is to own a house on this little red dot with my life partner (*read: wife*). 
@@ -328,4 +327,38 @@ ggplot(aes(x = lease_commence_date, y = median_price_by_lease/1000)) +
   scale_y_continuous(breaks = seq(0, 1500, by = 200)) +
   scale_x_continuous(breaks = seq(1960, 2020, by = 20)) +
   theme(plot.title = element_text(size = 12))
+```
+
+### Choosing feature variables to predict HDB resale prices
+
+In predicting HDB resale prices, the exploratory analyses revealed some key variables:
+- Flat-type (e.g., 4-room, 5-room, Executive)
+- Year of sale
+- Year of lease commencement (i.e., indicating the remaining length of the house lease at point of sale)
+- Storeys (e.g., Mid or High floors)
+- Region (i.e., indicated by Town, which indicates proximity to the CBD)
+
+Out of these variables, we will need to create or calculate new variables for the length of housing lease at point of sale and for the housing region.
+
+For the town groupings by region, we will use the information found [here](https://en.wikipedia.org/wiki/Regions_of_Singapore).
+
+```{r create variable for length of lease, echo = FALSE}
+filtered_data <- filtered_data %>% 
+  mutate(year = as.numeric(year)) %>% 
+  mutate(lease_length = year-lease_commence_date) %>% 
+  relocate(lease_length, .after = lease_commence_date)
+```
+
+```{r create variable for region, echo = FALSE}
+filtered_data <- filtered_data %>% 
+  mutate(region = factor(case_when(
+    town %in% c("BISHAN", "BUKIT MERAH", "BUKIT TIMAH", "CENTRAL AREA", "GEYLANG", "KALLANG/WHAMPOA", 
+    "MARINE PARADE", "QUEENSTOWN", "TOA PAYOH") ~ "central",
+    town %in% c("BEDOK", "PASIR RIS", "TAMPINES") ~ "east",
+    town %in% c("SEMBAWANG", "WOODLANDS", "YISHUN") ~ "north",
+    town %in% c("ANG MO KIO", "HOUGANG", "PUNGGOL", "SENGKANG", "SERANGOON") ~ "north-east",
+    town %in% c("BUKIT BATOK", "BUKIT PANJANG", "CHOA CHU KANG", "CLEMENTI", "JURONG EAST", "JURONG WEST") ~ "west"
+  ),
+  levels = c("central", "east", "north", "north-east", "west"))) %>% 
+  relocate(region, .after = town)
 ```
