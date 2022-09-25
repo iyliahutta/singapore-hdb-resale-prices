@@ -276,3 +276,17 @@ the resale prices increased for newer HDB resale flats (rho = 0.251, *p*
 <img src="README_files/figure-gfm/plot lease date and price-1.png" style="display: block; margin: auto;" />
 
 ### Choosing feature variables to predict HDB resale prices
+
+In predicting HDB resale prices, the exploratory analyses revealed some
+key variables: - Flat-type (e.g., 4-room, 5-room, Executive) - Year of
+sale - Year of lease commencement (i.e., indicating the remaining length
+of the house lease at point of sale) - Storeys (e.g., Mid or High
+floors) - Region (i.e., indicated by Town, which indicates proximity to
+the CBD)
+
+Out of these variables, we will need to create or calculate new
+variables for the length of housing lease at point of sale and for the
+housing region.
+
+For the town groupings by region, we will use the information found
+[here](https://en.wikipedia.org/wiki/Regions_of_Singapore).
