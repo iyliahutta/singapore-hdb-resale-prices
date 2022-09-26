@@ -275,6 +275,9 @@ the resale prices increased for newer HDB resale flats (rho = 0.251, *p*
 
 <img src="README_files/figure-gfm/plot lease date and price-1.png" style="display: block; margin: auto;" />
 
+Finally, we can also examine whether the HDB resale prices follow a
+pattern or trend over time.
+
 ### Choosing feature variables to predict HDB resale prices
 
 In predicting HDB resale prices, the exploratory analyses revealed some
