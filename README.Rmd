@@ -348,7 +348,8 @@ filtered_data %>%
           x = "Month and Year") +
     theme_bw(base_size = 15) +
     theme(plot.title = element_text(size = 14),
-            axis.text.x = element_text(angle = 90)) +
+            axis.text.x = element_text(angle = 60, vjust = 1, hjust = 1),
+            axis.title.y = element_text(size = 13)) +
     facet_grid(rows = vars(flat_type2)) +
     scale_x_date(date_breaks = "1 year", date_minor_breaks = "1 month", date_labels = "%b %Y")
 ```
