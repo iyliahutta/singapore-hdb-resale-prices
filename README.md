@@ -278,6 +278,9 @@ the resale prices increased for newer HDB resale flats (rho = 0.251, *p*
 Finally, we can also examine whether the HDB resale prices follow a
 pattern or trend over time.
 
+    ## `summarise()` has grouped output by 'month_year'. You can override using the
+    ## `.groups` argument.
+
 <img src="README_files/figure-gfm/create date and month variable and then plot time series-1.png" style="display: block; margin: auto;" />
 
 ### Choosing feature variables to predict HDB resale prices
