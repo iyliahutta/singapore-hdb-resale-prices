@@ -534,3 +534,6 @@ Two feature variables deserve separate insights analyses:
   - The order of resale prices by region from highest to lowest is as follows: Central > East > North-East > West > North
 - Month of sale
   - As predicted, resale prices would decrease in the middle of the year (May to July), increase towards the end of the year and then fall again.
+
+
+## Conclusions

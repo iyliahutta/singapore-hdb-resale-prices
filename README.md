@@ -18,6 +18,7 @@ Singapore HDB Resale Flat Prices for 1990 - 2022
   - <a href="#digging-deeper-into-each-feature-variable"
     id="toc-digging-deeper-into-each-feature-variable">Digging deeper into
     each feature variable</a>
+- <a href="#conclusions" id="toc-conclusions">Conclusions</a>
 
 ## Introduction
 
@@ -574,3 +575,5 @@ Two feature variables deserve separate insights analyses:
   - As predicted, resale prices would decrease in the middle of the year
     (May to July), increase towards the end of the year and then fall
     again.
+
+## Conclusions
