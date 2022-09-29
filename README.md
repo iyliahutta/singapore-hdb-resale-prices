@@ -15,6 +15,9 @@ Singapore HDB Resale Flat Prices for 1990 - 2022
   href="#predicting-hdb-apartment-resale-prices-for-the-years-of-2010---2022"
   id="toc-predicting-hdb-apartment-resale-prices-for-the-years-of-2010---2022">Predicting
   HDB apartment resale prices for the years of 2010 - 2022</a>
+  - <a href="#digging-deeper-into-each-feature-variable"
+    id="toc-digging-deeper-into-each-feature-variable">Digging deeper into
+    each feature variable</a>
 
 ## Introduction
 
@@ -316,8 +319,8 @@ key variables:
 - Region (i.e., indicated by Town, which indicates proximity to the CBD)
 
 Out of these variables, we will need to create or calculate new
-variables for the length of housing lease at point of sale and for the
-housing region.
+variables for the length of housing lease at point of sale, for the
+housing region and for the month of sale.
 
 For the town groupings by region, we will use the information found
 [here](https://en.wikipedia.org/wiki/Regions_of_Singapore).
@@ -330,7 +333,7 @@ prices would be:
 - Remaining lease length in years (`remaining_lease_length`)
 - Region (`region`)
 - Floor level (`storeys`)
-- Month of sale (`month_year`)
+- Month of sale (`month_2`)
 
 Since flat type and floor area are synonymous, we can conduct an ANOVA
 test on both variables to test for feature dependence and consider
@@ -379,61 +382,83 @@ After exploring our data and gaining some insights into the trends and
 factors possibly influencing resale prices, we will be modelling the
 prices to predict them.
 
+For these linear regression models, the alpha level will be set at 0.1.
+
     ## 
     ## Call:
     ## lm(formula = resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + 
-    ##     region + storeys + month_year, data = filtered_data)
+    ##     region + storeys + month_2, data = filtered_data)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -317148  -57051   -9467   44590  545288 
+    ## -367175  -58312  -10367   45452  597610 
     ## 
     ## Coefficients:
-    ##                          Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)            -2.914e+05  9.612e+03  -30.31   <2e-16 ***
-    ## flat_type25-room        3.730e+04  1.629e+03   22.90   <2e-16 ***
-    ## flat_type2Executive     8.957e+04  3.209e+03   27.91   <2e-16 ***
-    ## floor_area_sqm          2.435e+03  5.950e+01   40.92   <2e-16 ***
-    ## remaining_lease_length  3.572e+03  4.488e+01   79.59   <2e-16 ***
-    ## regioneast             -1.824e+05  1.626e+03 -112.19   <2e-16 ***
-    ## regionnorth            -2.806e+05  1.531e+03 -183.27   <2e-16 ***
-    ## regionnorth-east       -2.183e+05  1.395e+03 -156.50   <2e-16 ***
-    ## regionwest             -2.375e+05  1.402e+03 -169.42   <2e-16 ***
-    ## storeyshigh             2.070e+04  9.244e+02   22.39   <2e-16 ***
-    ## month_year              2.451e+01  3.150e-01   77.81   <2e-16 ***
+    ##                          Estimate Std. Error  t value Pr(>|t|)    
+    ## (Intercept)             192393.54    7991.52   24.075  < 2e-16 ***
+    ## flat_type25-room         42930.32    1748.21   24.557  < 2e-16 ***
+    ## flat_type2Executive     101234.29    3442.75   29.405  < 2e-16 ***
+    ## floor_area_sqm            2092.59      63.74   32.830  < 2e-16 ***
+    ## remaining_lease_length    3070.20      47.70   64.360  < 2e-16 ***
+    ## regioneast             -184964.82    1745.95 -105.939  < 2e-16 ***
+    ## regionnorth            -282939.00    1644.10 -172.094  < 2e-16 ***
+    ## regionnorth-east       -212554.68    1495.88 -142.093  < 2e-16 ***
+    ## regionwest             -238367.42    1505.39 -158.342  < 2e-16 ***
+    ## storeyshigh              24983.04     991.06   25.208  < 2e-16 ***
+    ## month_2February           2499.78    2405.04    1.039  0.29863    
+    ## month_2March              1080.56    2241.75    0.482  0.62980    
+    ## month_2April              4411.63    2259.93    1.952  0.05093 .  
+    ## month_2May               -4450.62    2334.43   -1.907  0.05659 .  
+    ## month_2June              -5298.25    2289.35   -2.314  0.02066 *  
+    ## month_2July              -2286.79    2245.69   -1.018  0.30854    
+    ## month_2August             2523.11    2277.43    1.108  0.26792    
+    ## month_2September          6326.38    2312.60    2.736  0.00623 ** 
+    ## month_2October            5928.02    2281.24    2.599  0.00936 ** 
+    ## month_2November          10855.42    2328.24    4.663 3.13e-06 ***
+    ## month_2December          11675.33    2377.92    4.910 9.15e-07 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 85240 on 38684 degrees of freedom
-    ## Multiple R-squared:  0.6411, Adjusted R-squared:  0.641 
-    ## F-statistic:  6911 on 10 and 38684 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 91530 on 38674 degrees of freedom
+    ## Multiple R-squared:  0.5863, Adjusted R-squared:  0.586 
+    ## F-statistic:  2740 on 20 and 38674 DF,  p-value: < 2.2e-16
 
     ## 
     ## Call:
     ## lm(formula = resale_price ~ floor_area_sqm + remaining_lease_length + 
-    ##     region + storeys + month_year, data = filtered_data)
+    ##     region + storeys + month_2, data = filtered_data)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -320649  -58224   -9558   45518  561130 
+    ## -371865  -59901  -10372   46065  616839 
     ## 
     ## Coefficients:
-    ##                          Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)            -4.541e+05  7.659e+03  -59.29   <2e-16 ***
-    ## floor_area_sqm          3.911e+03  2.590e+01  151.04   <2e-16 ***
-    ## remaining_lease_length  3.795e+03  4.448e+01   85.33   <2e-16 ***
-    ## regioneast             -1.861e+05  1.633e+03 -113.95   <2e-16 ***
-    ## regionnorth            -2.815e+05  1.544e+03 -182.35   <2e-16 ***
-    ## regionnorth-east       -2.162e+05  1.407e+03 -153.71   <2e-16 ***
-    ## regionwest             -2.385e+05  1.414e+03 -168.68   <2e-16 ***
-    ## storeyshigh             2.244e+04  9.306e+02   24.11   <2e-16 ***
-    ## month_year              2.492e+01  3.178e-01   78.40   <2e-16 ***
+    ##                          Estimate Std. Error  t value Pr(>|t|)    
+    ## (Intercept)              16398.79    5303.34    3.092  0.00199 ** 
+    ## floor_area_sqm            3768.31      27.78  135.671  < 2e-16 ***
+    ## remaining_lease_length    3316.60      47.37   70.009  < 2e-16 ***
+    ## regioneast             -189269.19    1755.45 -107.818  < 2e-16 ***
+    ## regionnorth            -284040.91    1659.29 -171.183  < 2e-16 ***
+    ## regionnorth-east       -210107.51    1510.00 -139.144  < 2e-16 ***
+    ## regionwest             -239552.19    1519.93 -157.607  < 2e-16 ***
+    ## storeyshigh              27079.19     998.56   27.118  < 2e-16 ***
+    ## month_2February           2536.25    2431.84    1.043  0.29699    
+    ## month_2March              1037.88    2266.74    0.458  0.64705    
+    ## month_2April              4670.73    2285.13    2.044  0.04096 *  
+    ## month_2May               -4274.48    2360.45   -1.811  0.07017 .  
+    ## month_2June              -5724.85    2314.84   -2.473  0.01340 *  
+    ## month_2July              -2354.65    2270.74   -1.037  0.29976    
+    ## month_2August             2158.63    2302.73    0.937  0.34855    
+    ## month_2September          6198.17    2338.40    2.651  0.00804 ** 
+    ## month_2October            5804.99    2306.68    2.517  0.01185 *  
+    ## month_2November          10084.08    2353.99    4.284 1.84e-05 ***
+    ## month_2December          11342.52    2404.42    4.717 2.40e-06 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 86090 on 38686 degrees of freedom
-    ## Multiple R-squared:  0.6339, Adjusted R-squared:  0.6338 
-    ## F-statistic:  8372 on 8 and 38686 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 92560 on 38676 degrees of freedom
+    ## Multiple R-squared:  0.5769, Adjusted R-squared:  0.5767 
+    ## F-statistic:  2930 on 18 and 38676 DF,  p-value: < 2.2e-16
 
     ## 
     ## Call:
@@ -462,3 +487,90 @@ prices to predict them.
     ## Residual standard error: 91660 on 38685 degrees of freedom
     ## Multiple R-squared:  0.585,  Adjusted R-squared:  0.5849 
     ## F-statistic:  6058 on 9 and 38685 DF,  p-value: < 2.2e-16
+
+Three models were fitted:
+
+1.  A model with all the feature variables listed above (aka the Full
+    model)
+2.  A model without the flat type variable
+3.  A model without the month of year variable
+
+The r<sup>2</sup> values and the p-values for the coefficients of each
+model and for each full model were compared.
+
+The results show that the full model was sufficient in explaining the
+HDB resale prices across 2010 and 2022, with r<sup>2</sup> = 0.586, *F*
+= 2740, *p* \< 0.001. When certain variables were removed as in Models 2
+and 3, the r<sup>2</sup> values would drop to 0.577 and 0.585
+respectively, indicating a drop in the explainability of the model. The
+full model therefore showed a moderate variability (58.6%) in explaining
+HDB resale prices.
+
+While dropping the month of year variable resulted in a change in
+r<sup>2</sup> of 0.001, the coefficients for the month of year variable
+had several values that had *p*-values less than 0.1 thereby still being
+able to explain the HDB resale prices.
+
+### Digging deeper into each feature variable
+
+    ## 
+    ## Call:
+    ## lm(formula = resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + 
+    ##     region + storeys + month_2, data = filtered_data)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -367175  -58312  -10367   45452  597610 
+    ## 
+    ## Coefficients:
+    ##                          Estimate Std. Error  t value Pr(>|t|)    
+    ## (Intercept)             192393.54    7991.52   24.075  < 2e-16 ***
+    ## flat_type25-room         42930.32    1748.21   24.557  < 2e-16 ***
+    ## flat_type2Executive     101234.29    3442.75   29.405  < 2e-16 ***
+    ## floor_area_sqm            2092.59      63.74   32.830  < 2e-16 ***
+    ## remaining_lease_length    3070.20      47.70   64.360  < 2e-16 ***
+    ## regioneast             -184964.82    1745.95 -105.939  < 2e-16 ***
+    ## regionnorth            -282939.00    1644.10 -172.094  < 2e-16 ***
+    ## regionnorth-east       -212554.68    1495.88 -142.093  < 2e-16 ***
+    ## regionwest             -238367.42    1505.39 -158.342  < 2e-16 ***
+    ## storeyshigh              24983.04     991.06   25.208  < 2e-16 ***
+    ## month_2February           2499.78    2405.04    1.039  0.29863    
+    ## month_2March              1080.56    2241.75    0.482  0.62980    
+    ## month_2April              4411.63    2259.93    1.952  0.05093 .  
+    ## month_2May               -4450.62    2334.43   -1.907  0.05659 .  
+    ## month_2June              -5298.25    2289.35   -2.314  0.02066 *  
+    ## month_2July              -2286.79    2245.69   -1.018  0.30854    
+    ## month_2August             2523.11    2277.43    1.108  0.26792    
+    ## month_2September          6326.38    2312.60    2.736  0.00623 ** 
+    ## month_2October            5928.02    2281.24    2.599  0.00936 ** 
+    ## month_2November          10855.42    2328.24    4.663 3.13e-06 ***
+    ## month_2December          11675.33    2377.92    4.910 9.15e-07 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 91530 on 38674 degrees of freedom
+    ## Multiple R-squared:  0.5863, Adjusted R-squared:  0.586 
+    ## F-statistic:  2740 on 20 and 38674 DF,  p-value: < 2.2e-16
+
+Reviewing the linear regression coefficients, we see the following
+insights:
+
+1.  As predicted, as flat sizes increase, the resale prices would
+    increase, all else being equal
+2.  As predicted, as remaining lease lengths increase, resale prices
+    would increase, all else being equal
+3.  As predicted, for apartments on higher floors, resale prices would
+    increase, all else being equal
+
+Two feature variables deserve separate insights analyses:
+
+- Region of apartment
+  - All else being equal, compared to apartments in the Central region,
+    apartments in the North, East, North-East and West regions would
+    predict lower resale prices.
+  - The order of resale prices by region from highest to lowest is as
+    follows: Central \> East \> North-East \> West \> North
+- Month of sale
+  - As predicted, resale prices would decrease in the middle of the year
+    (May to July), increase towards the end of the year and then fall
+    again.

@@ -526,4 +526,11 @@ Reviewing the linear regression coefficients, we see the following insights:
 1. As predicted, as flat sizes increase, the resale prices would increase, all else being equal
 2. As predicted, as remaining lease lengths increase, resale prices would increase, all else being equal
 3. As predicted, for apartments on higher floors, resale prices would increase, all else being equal
-4. 
+
+Two feature variables deserve separate insights analyses:
+
+- Region of apartment
+  - All else being equal, compared to apartments in the Central region, apartments in the North, East, North-East and West regions would predict lower resale prices.
+  - The order of resale prices by region from highest to lowest is as follows: Central > East > North-East > West > North
+- Month of sale
+  - As predicted, resale prices would decrease in the middle of the year (May to July), increase towards the end of the year and then fall again.
