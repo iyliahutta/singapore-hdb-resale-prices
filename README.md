@@ -11,6 +11,10 @@ Singapore HDB Resale Flat Prices for 1990 - 2022
   - <a href="#choosing-feature-variables-to-predict-hdb-resale-prices"
     id="toc-choosing-feature-variables-to-predict-hdb-resale-prices">Choosing
     feature variables to predict HDB resale prices</a>
+- <a
+  href="#predicting-hdb-apartment-resale-prices-for-the-years-of-2010---2022"
+  id="toc-predicting-hdb-apartment-resale-prices-for-the-years-of-2010---2022">Predicting
+  HDB apartment resale prices for the years of 2010 - 2022</a>
 
 ## Introduction
 
@@ -286,19 +290,16 @@ pattern or trend over time.
     40,000 more between high and middle floors)
 2.  Apartments nearer to the CBD tend to be priced higher than those
     futher away
-
-- Apartments in mature estates tend to be priced higher than those in
-  non-mature estates
-
-3.  Apartments with larger flat types tend to be priced higher than
+3.  Apartments in mature estates tend to be priced higher than those in
+    non-mature estates
+4.  Apartments with larger flat types tend to be priced higher than
     relatively smaller ones
-4.  Newer apartments tend to be priced higher than relatively older ones
+5.  Newer apartments tend to be priced higher than relatively older ones
     (i.e., with shorter remaining lease years)
-5.  Resale prices generally dip at the end of the year and then dip
+6.  Resale prices generally dip at the end of the year and then dip
     again at around mid-year
-
-- Executive apartment resale prices are more volatile (variable) than
-  4-room and 5-room apartment resale prices
+7.  Executive apartment resale prices are more volatile (variable) than
+    4-room and 5-room apartment resale prices
 
 ### Choosing feature variables to predict HDB resale prices
 
@@ -308,7 +309,7 @@ key variables:
 - Flat-type (e.g., 4-room, 5-room, Executive)
   - This variable is synonymous with the floor area of the house, which
     is represented by the `floor_area_sqm` variable
-- Year of sale
+- Month of sale
 - Year of lease commencement (i.e., indicating the remaining length of
   the house lease at point of sale)
 - Storeys (e.g., Mid or High floors)
@@ -329,3 +330,135 @@ prices would be:
 - Remaining lease length in years (`remaining_lease_length`)
 - Region (`region`)
 - Floor level (`storeys`)
+- Month of sale (`month_year`)
+
+Since flat type and floor area are synonymous, we can conduct an ANOVA
+test on both variables to test for feature dependence and consider
+whether we should use both variables as features in a model or only one.
+
+For this ANOVA test, we will set our alpha level to 0.1 and the null
+hypothesis that there is no difference between the means of the floor
+area for the flat types.
+
+    ## Analysis of Variance Table
+    ## 
+    ## Response: floor_area_sqm
+    ##               Df  Sum Sq Mean Sq F value    Pr(>F)    
+    ## flat_type2     2 9370466 4685233   77207 < 2.2e-16 ***
+    ## Residuals  38692 2347999      61                      
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+The ANOVA test showed that the p-value was less than 0.001 and so we can
+reject the null hypothesis; concluding that there is a mean difference
+between the floor area of flat types.
+
+To determine which pairs of flat types had differences, we can conduct a
+series pairwise t-test with Bonferroni correction. We will set alpha to
+0.1 for this test.
+
+    ## 
+    ##  Pairwise comparisons using t tests with pooled SD 
+    ## 
+    ## data:  filtered_data$floor_area_sqm and filtered_data$flat_type2 
+    ## 
+    ##           4-room 5-room
+    ## 5-room    <2e-16 -     
+    ## Executive <2e-16 <2e-16
+    ## 
+    ## P value adjustment method: bonferroni
+
+The pairwise t-tests showed p-values of less than 0.001 for all possible
+pairs, which means that we can reject all null hypotheses that there
+were no differences in mean floor areas between flat types. As such, we
+will be keeping both variables for predicting HDB resale prices.
+
+## Predicting HDB apartment resale prices for the years of 2010 - 2022
+
+After exploring our data and gaining some insights into the trends and
+factors possibly influencing resale prices, we will be modelling the
+prices to predict them.
+
+    ## 
+    ## Call:
+    ## lm(formula = resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + 
+    ##     region + storeys + month_year, data = filtered_data)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -317148  -57051   -9467   44590  545288 
+    ## 
+    ## Coefficients:
+    ##                          Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)            -2.914e+05  9.612e+03  -30.31   <2e-16 ***
+    ## flat_type25-room        3.730e+04  1.629e+03   22.90   <2e-16 ***
+    ## flat_type2Executive     8.957e+04  3.209e+03   27.91   <2e-16 ***
+    ## floor_area_sqm          2.435e+03  5.950e+01   40.92   <2e-16 ***
+    ## remaining_lease_length  3.572e+03  4.488e+01   79.59   <2e-16 ***
+    ## regioneast             -1.824e+05  1.626e+03 -112.19   <2e-16 ***
+    ## regionnorth            -2.806e+05  1.531e+03 -183.27   <2e-16 ***
+    ## regionnorth-east       -2.183e+05  1.395e+03 -156.50   <2e-16 ***
+    ## regionwest             -2.375e+05  1.402e+03 -169.42   <2e-16 ***
+    ## storeyshigh             2.070e+04  9.244e+02   22.39   <2e-16 ***
+    ## month_year              2.451e+01  3.150e-01   77.81   <2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 85240 on 38684 degrees of freedom
+    ## Multiple R-squared:  0.6411, Adjusted R-squared:  0.641 
+    ## F-statistic:  6911 on 10 and 38684 DF,  p-value: < 2.2e-16
+
+    ## 
+    ## Call:
+    ## lm(formula = resale_price ~ floor_area_sqm + remaining_lease_length + 
+    ##     region + storeys + month_year, data = filtered_data)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -320649  -58224   -9558   45518  561130 
+    ## 
+    ## Coefficients:
+    ##                          Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)            -4.541e+05  7.659e+03  -59.29   <2e-16 ***
+    ## floor_area_sqm          3.911e+03  2.590e+01  151.04   <2e-16 ***
+    ## remaining_lease_length  3.795e+03  4.448e+01   85.33   <2e-16 ***
+    ## regioneast             -1.861e+05  1.633e+03 -113.95   <2e-16 ***
+    ## regionnorth            -2.815e+05  1.544e+03 -182.35   <2e-16 ***
+    ## regionnorth-east       -2.162e+05  1.407e+03 -153.71   <2e-16 ***
+    ## regionwest             -2.385e+05  1.414e+03 -168.68   <2e-16 ***
+    ## storeyshigh             2.244e+04  9.306e+02   24.11   <2e-16 ***
+    ## month_year              2.492e+01  3.178e-01   78.40   <2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 86090 on 38686 degrees of freedom
+    ## Multiple R-squared:  0.6339, Adjusted R-squared:  0.6338 
+    ## F-statistic:  8372 on 8 and 38686 DF,  p-value: < 2.2e-16
+
+    ## 
+    ## Call:
+    ## lm(formula = resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + 
+    ##     region + storeys, data = filtered_data)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -368703  -58332  -10519   45576  599517 
+    ## 
+    ## Coefficients:
+    ##                          Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)             194549.85    7857.41   24.76   <2e-16 ***
+    ## flat_type25-room         42785.29    1750.30   24.45   <2e-16 ***
+    ## flat_type2Executive     100957.37    3446.99   29.29   <2e-16 ***
+    ## floor_area_sqm            2097.08      63.82   32.86   <2e-16 ***
+    ## remaining_lease_length    3070.82      47.76   64.30   <2e-16 ***
+    ## regioneast             -184876.16    1748.21 -105.75   <2e-16 ***
+    ## regionnorth            -282901.15    1646.22 -171.85   <2e-16 ***
+    ## regionnorth-east       -212547.30    1497.84 -141.90   <2e-16 ***
+    ## regionwest             -238487.06    1507.36 -158.22   <2e-16 ***
+    ## storeyshigh              25033.09     992.24   25.23   <2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 91660 on 38685 degrees of freedom
+    ## Multiple R-squared:  0.585,  Adjusted R-squared:  0.5849 
+    ## F-statistic:  6058 on 9 and 38685 DF,  p-value: < 2.2e-16

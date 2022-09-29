@@ -406,11 +406,11 @@ filtered_data %>%
 
 1. Apartments on higher floors tend to be priced higher (at least SGD 40,000 more between high and middle floors)
 2. Apartments nearer to the CBD tend to be priced higher than those futher away
-  - Apartments in mature estates tend to be priced higher than those in non-mature estates
-3. Apartments with larger flat types tend to be priced higher than relatively smaller ones
-4. Newer apartments tend to be priced higher than relatively older ones (i.e., with shorter remaining lease years)
-5. Resale prices generally dip at the end of the year and then dip again at around mid-year
-  - Executive apartment resale prices are more volatile (variable) than 4-room and 5-room apartment resale prices
+3. Apartments in mature estates tend to be priced higher than those in non-mature estates
+4. Apartments with larger flat types tend to be priced higher than relatively smaller ones
+5. Newer apartments tend to be priced higher than relatively older ones (i.e., with shorter remaining lease years)
+6. Resale prices generally dip at the end of the year and then dip again at around mid-year
+7. Executive apartment resale prices are more volatile (variable) than 4-room and 5-room apartment resale prices
 
 ### Choosing feature variables to predict HDB resale prices
 
@@ -418,12 +418,12 @@ In predicting HDB resale prices, the exploratory analyses revealed some key vari
 
 - Flat-type (e.g., 4-room, 5-room, Executive)
   - This variable is synonymous with the floor area of the house, which is represented by the `floor_area_sqm` variable
-- Year of sale
+- Month of sale
 - Year of lease commencement (i.e., indicating the remaining length of the house lease at point of sale)
 - Storeys (e.g., Mid or High floors)
 - Region (i.e., indicated by Town, which indicates proximity to the CBD)
 
-Out of these variables, we will need to create or calculate new variables for the length of housing lease at point of sale and for the housing region.
+Out of these variables, we will need to create or calculate new variables for the length of housing lease at point of sale, for the housing region and for the month of sale.
 
 For the town groupings by region, we will use the information found [here](https://en.wikipedia.org/wiki/Regions_of_Singapore).
 
@@ -448,6 +448,14 @@ filtered_data <- filtered_data %>%
   relocate(region, .after = town)
 ```
 
+```{r create variable for month of sale, echo = FALSE}
+filtered_data <- filtered_data %>% 
+  mutate(month_2 =  as.character(month_year, "%B")) %>% 
+  relocate(month_2, .after = month_year) %>% 
+  mutate(month_2 = factor(month_2,
+    levels = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")))
+```
+
 As such, the feature variables we will be using to predict HDB resale prices would be:
 
 - Flat Type (`flat_type2`)
@@ -455,3 +463,67 @@ As such, the feature variables we will be using to predict HDB resale prices wou
 - Remaining lease length in years (`remaining_lease_length`)
 - Region (`region`)
 - Floor level (`storeys`)
+- Month of sale (`month_2`)
+
+Since flat type and floor area are synonymous, we can conduct an ANOVA test on both variables to test for feature dependence and consider whether we should use both variables as features in a model or only one.
+
+For this ANOVA test, we will set our alpha level to 0.1 and the null hypothesis that there is no difference between the means of the floor area for the flat types.
+
+```{r anova for flat type and floor area, echo = FALSE}
+floor_area_vs_flat_type <- lm(floor_area_sqm ~ flat_type2, data = filtered_data) #define model for ANOVA
+
+anova(floor_area_vs_flat_type)
+```
+
+The ANOVA test showed that the p-value was less than 0.001 and so we can reject the null hypothesis; concluding that there is a mean difference between the floor area of flat types.
+
+To determine which pairs of flat types had differences, we can conduct a series pairwise t-test with Bonferroni correction. We will set alpha to 0.1 for this test.
+
+```{r pairwise t-test, echo = FALSE}
+pairwise.t.test(filtered_data$floor_area_sqm, filtered_data$flat_type2, p.adjust.method = "bonferroni")
+```
+
+The pairwise t-tests showed p-values of less than 0.001 for all possible pairs, which means that we can reject all null hypotheses that there were no differences in mean floor areas between flat types. As such, we will be keeping both variables for predicting HDB resale prices.
+
+## Predicting HDB apartment resale prices for the years of 2010 - 2022
+
+After exploring our data and gaining some insights into the trends and factors possibly influencing resale prices, we will be modelling the prices to predict them.
+
+For these linear regression models, the alpha level will be set at 0.1.
+
+```{r multiple linear regression for resale prices, echo = FALSE}
+lm_resale_prices <- lm(resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + region + storeys + month_2, data = filtered_data) #define linear regression model
+
+summary(lm_resale_prices) #Review the results
+
+lm_resale_prices_2 <- lm(resale_price ~ floor_area_sqm + remaining_lease_length + region + storeys + month_2, data = filtered_data) #define linear regression model 2 without flat_type variable
+
+summary(lm_resale_prices_2) #Review the results 2
+
+lm_resale_prices_3 <- lm(resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + region + storeys, data = filtered_data) #define linear regression model 3 without month of year
+
+summary(lm_resale_prices_3) #Review the results 3
+```
+
+Three models were fitted:
+
+1. A model with all the feature variables listed above (aka the Full model)
+2. A model without the flat type variable
+3. A model without the month of year variable
+
+The r^2^ values and the p-values for the coefficients of each model and for each full model were compared.
+
+The results show that the full model was sufficient in explaining the HDB resale prices across 2010 and 2022, with r^2^ = 0.586, *F* = 2740, *p* < 0.001. When certain variables were removed as in Models 2 and 3, the r^2^ values would drop to 0.577 and 0.585 respectively, indicating a drop in the explainability of the model. The full model therefore showed a moderate variability (58.6%) in explaining HDB resale prices.
+
+While dropping the month of year variable resulted in a change in r^2^ of 0.001, the coefficients for the month of year variable had several values that had *p*-values less than 0.1 thereby still being able to explain the HDB resale prices.
+
+### Digging deeper into each feature variable
+```{r review the linear regression, echo = FALSE}
+summary(lm_resale_prices) #Review the results
+```
+Reviewing the linear regression coefficients, we see the following insights:
+
+1. As predicted, as flat sizes increase, the resale prices would increase, all else being equal
+2. As predicted, as remaining lease lengths increase, resale prices would increase, all else being equal
+3. As predicted, for apartments on higher floors, resale prices would increase, all else being equal
+4. 
