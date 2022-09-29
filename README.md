@@ -278,10 +278,27 @@ the resale prices increased for newer HDB resale flats (rho = 0.251, *p*
 Finally, we can also examine whether the HDB resale prices follow a
 pattern or trend over time.
 
-    ## `summarise()` has grouped output by 'month_year'. You can override using the
-    ## `.groups` argument.
+<img src="README_files/figure-gfm/create date and month variable and then plot time series-1.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/create date and month variable and then plot time series-2.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/create date and month variable and then plot time series-3.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/create date and month variable and then plot time series-4.png" style="display: block; margin: auto;" />
 
-<img src="README_files/figure-gfm/create date and month variable and then plot time series-1.png" style="display: block; margin: auto;" />
+#### Insights from EDA of resale apartments from 2010 onwards
+
+1.  Apartments on higher floors tend to be priced higher (at least SGD
+    40,000 more between high and middle floors)
+2.  Apartments nearer to the CBD tend to be priced higher than those
+    futher away
+
+- Apartments in mature estates tend to be priced higher than those in
+  non-mature estates
+
+3.  Apartments with larger flat types tend to be priced higher than
+    relatively smaller ones
+4.  Newer apartments tend to be priced higher than relatively older ones
+    (i.e., with shorter remaining lease years)
+5.  Resale prices generally dip at the end of the year and then dip
+    again at around mid-year
+
+- Executive apartment resale prices are more volatile (variable) than
+  4-room and 5-room apartment resale prices
 
 ### Choosing feature variables to predict HDB resale prices
 
@@ -307,6 +324,7 @@ For the town groupings by region, we will use the information found
 As such, the feature variables we will be using to predict HDB resale
 prices would be:
 
+- Flat Type (`flat_type2`)
 - Floor area in sqm (`floor_area_sqm`)
 - Remaining lease length in years (`remaining_lease_length`)
 - Region (`region`)

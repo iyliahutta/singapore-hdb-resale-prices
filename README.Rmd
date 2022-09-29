@@ -332,14 +332,14 @@ ggplot(aes(x = lease_commence_date, y = median_price_by_lease/1000)) +
 
 Finally, we can also examine whether the HDB resale prices follow a pattern or trend over time.
 
-```{r create date and month variable and then plot time series, echo = FALSE, fig.align = "center"}
+```{r create date and month variable and then plot time series, echo = FALSE, message = FALSE, fig.align = "center"}
 filtered_data  <- filtered_data %>% 
   mutate(month_year = ym(month)) %>% 
   relocate(month_year, .after = month)
 
 #plot time series with month and year against resale value
 filtered_data %>% 
-  group_by(month_year, flat_type2) %>% 
+  group_by(month_year, flat_type2) %>% #all flat sizes
   summarise(mean_resale_price_hundredk = mean(resale_price)/1000) %>% 
   ggplot(aes(month_year, mean_resale_price_hundredk)) +
     geom_line(color = "red3") +
@@ -347,12 +347,70 @@ filtered_data %>%
           y = "HDB Resale Prices (SGD; thousands)",
           x = "Month and Year") +
     theme_bw(base_size = 15) +
-    theme(plot.title = element_text(size = 14),
+    theme(plot.title = element_text(size = 12),
             axis.text.x = element_text(angle = 60, vjust = 1, hjust = 1),
             axis.title.y = element_text(size = 13)) +
     facet_grid(rows = vars(flat_type2)) +
     scale_x_date(date_breaks = "1 year", date_minor_breaks = "1 month", date_labels = "%b %Y")
+
+filtered_data %>% 
+  filter(flat_type2 == "4-room") %>%  #4-room flats
+  group_by(month_year, storeys) %>% 
+  summarise(mean_resale_price_hundredk = mean(resale_price)/1000) %>% 
+  ggplot(aes(month_year, mean_resale_price_hundredk)) +
+    geom_line(color = "red3") +
+    labs(title = "Monthly Mean HDB Resale Prices for 4-room apartments over 2010 to 2022",
+          y = "HDB Resale Prices (SGD; thousands)",
+          x = "Month and Year") +
+    theme_bw(base_size = 15) +
+    theme(plot.title = element_text(size = 12),
+            axis.text.x = element_text(angle = 60, vjust = 1, hjust = 1),
+            axis.title.y = element_text(size = 13)) +
+    facet_grid(rows = vars(storeys)) +
+    scale_x_date(date_breaks = "1 year", date_minor_breaks = "1 month", date_labels = "%b %Y")
+
+filtered_data %>% 
+  filter(flat_type2 == "5-room") %>%  #5-room flats
+  group_by(month_year, storeys) %>% 
+  summarise(mean_resale_price_hundredk = mean(resale_price)/1000) %>% 
+  ggplot(aes(month_year, mean_resale_price_hundredk)) +
+    geom_line(color = "red3") +
+    labs(title = "Monthly Mean HDB Resale Prices for 5-room apartments over 2010 to 2022",
+          y = "HDB Resale Prices (SGD; thousands)",
+          x = "Month and Year") +
+    theme_bw(base_size = 15) +
+    theme(plot.title = element_text(size = 12),
+            axis.text.x = element_text(angle = 60, vjust = 1, hjust = 1),
+            axis.title.y = element_text(size = 13)) +
+    facet_grid(rows = vars(storeys)) +
+    scale_x_date(date_breaks = "1 year", date_minor_breaks = "1 month", date_labels = "%b %Y")
+
+filtered_data %>% 
+  filter(flat_type2 == "Executive") %>%  #exec flats
+  group_by(month_year, storeys) %>% 
+  summarise(mean_resale_price_hundredk = mean(resale_price)/1000) %>% 
+  ggplot(aes(month_year, mean_resale_price_hundredk)) +
+    geom_line(color = "red3") +
+    labs(title = "Monthly Mean HDB Resale Prices for Executive apartments over 2010 to 2022",
+          y = "HDB Resale Prices (SGD; thousands)",
+          x = "Month and Year") +
+    theme_bw(base_size = 15) +
+    theme(plot.title = element_text(size = 12),
+            axis.text.x = element_text(angle = 60, vjust = 1, hjust = 1),
+            axis.title.y = element_text(size = 13)) +
+    facet_grid(rows = vars(storeys)) +
+    scale_x_date(date_breaks = "1 year", date_minor_breaks = "1 month", date_labels = "%b %Y")
 ```
+
+#### Insights from EDA of resale apartments from 2010 onwards
+
+1. Apartments on higher floors tend to be priced higher (at least SGD 40,000 more between high and middle floors)
+2. Apartments nearer to the CBD tend to be priced higher than those futher away
+  - Apartments in mature estates tend to be priced higher than those in non-mature estates
+3. Apartments with larger flat types tend to be priced higher than relatively smaller ones
+4. Newer apartments tend to be priced higher than relatively older ones (i.e., with shorter remaining lease years)
+5. Resale prices generally dip at the end of the year and then dip again at around mid-year
+  - Executive apartment resale prices are more volatile (variable) than 4-room and 5-room apartment resale prices
 
 ### Choosing feature variables to predict HDB resale prices
 
@@ -369,7 +427,7 @@ Out of these variables, we will need to create or calculate new variables for th
 
 For the town groupings by region, we will use the information found [here](https://en.wikipedia.org/wiki/Regions_of_Singapore).
 
-```{r create variable for length of lease, echo = FALSE}
+```{r create variable for remaining length of lease, echo = FALSE}
 filtered_data <- filtered_data %>% 
   mutate(year = as.numeric(year)) %>% 
   mutate(remaining_lease_length = 99-(year-lease_commence_date)) %>% 
@@ -392,6 +450,7 @@ filtered_data <- filtered_data %>%
 
 As such, the feature variables we will be using to predict HDB resale prices would be:
 
+- Flat Type (`flat_type2`)
 - Floor area in sqm (`floor_area_sqm`)
 - Remaining lease length in years (`remaining_lease_length`)
 - Region (`region`)
