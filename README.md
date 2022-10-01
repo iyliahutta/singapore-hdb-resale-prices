@@ -576,4 +576,48 @@ Two feature variables deserve separate insights analyses:
     (May to July), increase towards the end of the year and then fall
     again.
 
+#### Visualising simple effects
+
+    ## MODEL INFO:
+    ## Observations: 38695
+    ## Dependent Variable: resale_price
+    ## Type: Linear regression 
+    ## 
+    ## MODEL FIT:
+    ## χ²(20) = 459128647515962.31, p = 0.00
+    ## Pseudo-R² (Cragg-Uhler) = 0.59
+    ## Pseudo-R² (McFadden) = 0.03
+    ## AIC = 993973.99, BIC = 994162.39 
+    ## 
+    ## Standard errors: MLE
+    ## --------------------------------------------------------------------
+    ##                                      Est.      S.E.    t val.      p
+    ## ---------------------------- ------------ --------- --------- ------
+    ## (Intercept)                     192393.54   7991.52     24.07   0.00
+    ## flat_type25-room                 42930.32   1748.21     24.56   0.00
+    ## flat_type2Executive             101234.29   3442.75     29.41   0.00
+    ## floor_area_sqm                    2092.59     63.74     32.83   0.00
+    ## remaining_lease_length            3070.20     47.70     64.36   0.00
+    ## regioneast                     -184964.82   1745.95   -105.94   0.00
+    ## regionnorth                    -282939.00   1644.10   -172.09   0.00
+    ## regionnorth-east               -212554.68   1495.88   -142.09   0.00
+    ## regionwest                     -238367.42   1505.39   -158.34   0.00
+    ## storeyshigh                      24983.04    991.06     25.21   0.00
+    ## month_2February                   2499.78   2405.04      1.04   0.30
+    ## month_2March                      1080.56   2241.75      0.48   0.63
+    ## month_2April                      4411.63   2259.93      1.95   0.05
+    ## month_2May                       -4450.62   2334.43     -1.91   0.06
+    ## month_2June                      -5298.25   2289.35     -2.31   0.02
+    ## month_2July                      -2286.79   2245.69     -1.02   0.31
+    ## month_2August                     2523.11   2277.43      1.11   0.27
+    ## month_2September                  6326.38   2312.60      2.74   0.01
+    ## month_2October                    5928.02   2281.24      2.60   0.01
+    ## month_2November                  10855.42   2328.24      4.66   0.00
+    ## month_2December                  11675.33   2377.92      4.91   0.00
+    ## --------------------------------------------------------------------
+    ## 
+    ## Estimated dispersion parameter = 8378459300
+
+<img src="README_files/figure-gfm/effect plot-1.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/effect plot-2.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/effect plot-3.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/effect plot-4.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/effect plot-5.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/effect plot-6.png" style="display: block; margin: auto;" />
+
 ## Conclusions

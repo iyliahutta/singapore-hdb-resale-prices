@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readr)
 library(lubridate)
+library(jtools)
 ```
 
 ## Introduction
@@ -534,6 +535,26 @@ Two feature variables deserve separate insights analyses:
   - The order of resale prices by region from highest to lowest is as follows: Central > East > North-East > West > North
 - Month of sale
   - As predicted, resale prices would decrease in the middle of the year (May to July), increase towards the end of the year and then fall again.
+
+#### Visualising simple effects
+```{r effect plot, echo = FALSE, fig.align = "center"}
+glm_resale_prices <- glm(resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + region + storeys + month_2, data = filtered_data,
+            family = gaussian()) #create selected model using glm
+
+summ(glm_resale_prices)
+
+effect_plot(glm_resale_prices, pred = region, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot region predictor
+
+effect_plot(glm_resale_prices, pred = flat_type2, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot flat type predictor
+
+effect_plot(glm_resale_prices, pred = floor_area_sqm, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot floor area predictor
+
+effect_plot(glm_resale_prices, pred = remaining_lease_length, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot remaining lease length predictor
+
+effect_plot(glm_resale_prices, pred = storeys, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot storeys predictor
+
+effect_plot(glm_resale_prices, pred = month_2, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot month predictor
+```
 
 
 ## Conclusions
