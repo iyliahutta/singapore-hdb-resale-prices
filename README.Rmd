@@ -623,3 +623,5 @@ In short:
 While there are many other factors affecting when a couple purchases a home (e.g., necessity and urgency of moving out), the variables analysed here were readily and publicly available and could serve to inform potential homeowners with the same criteria as me when studying HDB resale flat prices. With time in hand and adequate patience, one might be able to secure a flat when the market prices them at their lowest as compared to the rest of the year and also pick units in regions where prices are lower than others.
 
 Thank you for looking through this humble project of mine. Please feel free to reach out to me for any feedback or enquiries through my social media or email as listed [here](https://github.com/iyliahutta).
+
+The code for this project can be found in the .Rmd file of the repo or also [here as an R file](https://github.com/iyliahutta/singapore-hdb-resale-prices/blob/main/README.R).

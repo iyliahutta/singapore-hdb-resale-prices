@@ -686,3 +686,7 @@ prices are lower than others.
 Thank you for looking through this humble project of mine. Please feel
 free to reach out to me for any feedback or enquiries through my social
 media or email as listed [here](https://github.com/iyliahutta).
+
+The code for this project can be found in the .Rmd file of the repo or
+also [here as an R
+file](https://github.com/iyliahutta/singapore-hdb-resale-prices/blob/main/README.R).
