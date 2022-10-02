@@ -1,4 +1,4 @@
-Singapore HDB Resale Flat Prices for 1990 - 2022
+Singapore HDB Resale Flat Prices
 ================
 
 - <a href="#introduction" id="toc-introduction">Introduction</a>
@@ -385,116 +385,121 @@ prices to predict them.
 
 For these linear regression models, the alpha level will be set at 0.1.
 
-    ## 
-    ## Call:
-    ## lm(formula = resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + 
-    ##     region + storeys + month_2, data = filtered_data)
-    ## 
-    ## Residuals:
-    ##     Min      1Q  Median      3Q     Max 
-    ## -367175  -58312  -10367   45452  597610 
-    ## 
-    ## Coefficients:
-    ##                          Estimate Std. Error  t value Pr(>|t|)    
-    ## (Intercept)             192393.54    7991.52   24.075  < 2e-16 ***
-    ## flat_type25-room         42930.32    1748.21   24.557  < 2e-16 ***
-    ## flat_type2Executive     101234.29    3442.75   29.405  < 2e-16 ***
-    ## floor_area_sqm            2092.59      63.74   32.830  < 2e-16 ***
-    ## remaining_lease_length    3070.20      47.70   64.360  < 2e-16 ***
-    ## regioneast             -184964.82    1745.95 -105.939  < 2e-16 ***
-    ## regionnorth            -282939.00    1644.10 -172.094  < 2e-16 ***
-    ## regionnorth-east       -212554.68    1495.88 -142.093  < 2e-16 ***
-    ## regionwest             -238367.42    1505.39 -158.342  < 2e-16 ***
-    ## storeyshigh              24983.04     991.06   25.208  < 2e-16 ***
-    ## month_2February           2499.78    2405.04    1.039  0.29863    
-    ## month_2March              1080.56    2241.75    0.482  0.62980    
-    ## month_2April              4411.63    2259.93    1.952  0.05093 .  
-    ## month_2May               -4450.62    2334.43   -1.907  0.05659 .  
-    ## month_2June              -5298.25    2289.35   -2.314  0.02066 *  
-    ## month_2July              -2286.79    2245.69   -1.018  0.30854    
-    ## month_2August             2523.11    2277.43    1.108  0.26792    
-    ## month_2September          6326.38    2312.60    2.736  0.00623 ** 
-    ## month_2October            5928.02    2281.24    2.599  0.00936 ** 
-    ## month_2November          10855.42    2328.24    4.663 3.13e-06 ***
-    ## month_2December          11675.33    2377.92    4.910 9.15e-07 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 91530 on 38674 degrees of freedom
-    ## Multiple R-squared:  0.5863, Adjusted R-squared:  0.586 
-    ## F-statistic:  2740 on 20 and 38674 DF,  p-value: < 2.2e-16
-
-    ## 
-    ## Call:
-    ## lm(formula = resale_price ~ floor_area_sqm + remaining_lease_length + 
-    ##     region + storeys + month_2, data = filtered_data)
-    ## 
-    ## Residuals:
-    ##     Min      1Q  Median      3Q     Max 
-    ## -371865  -59901  -10372   46065  616839 
-    ## 
-    ## Coefficients:
-    ##                          Estimate Std. Error  t value Pr(>|t|)    
-    ## (Intercept)              16398.79    5303.34    3.092  0.00199 ** 
-    ## floor_area_sqm            3768.31      27.78  135.671  < 2e-16 ***
-    ## remaining_lease_length    3316.60      47.37   70.009  < 2e-16 ***
-    ## regioneast             -189269.19    1755.45 -107.818  < 2e-16 ***
-    ## regionnorth            -284040.91    1659.29 -171.183  < 2e-16 ***
-    ## regionnorth-east       -210107.51    1510.00 -139.144  < 2e-16 ***
-    ## regionwest             -239552.19    1519.93 -157.607  < 2e-16 ***
-    ## storeyshigh              27079.19     998.56   27.118  < 2e-16 ***
-    ## month_2February           2536.25    2431.84    1.043  0.29699    
-    ## month_2March              1037.88    2266.74    0.458  0.64705    
-    ## month_2April              4670.73    2285.13    2.044  0.04096 *  
-    ## month_2May               -4274.48    2360.45   -1.811  0.07017 .  
-    ## month_2June              -5724.85    2314.84   -2.473  0.01340 *  
-    ## month_2July              -2354.65    2270.74   -1.037  0.29976    
-    ## month_2August             2158.63    2302.73    0.937  0.34855    
-    ## month_2September          6198.17    2338.40    2.651  0.00804 ** 
-    ## month_2October            5804.99    2306.68    2.517  0.01185 *  
-    ## month_2November          10084.08    2353.99    4.284 1.84e-05 ***
-    ## month_2December          11342.52    2404.42    4.717 2.40e-06 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 92560 on 38676 degrees of freedom
-    ## Multiple R-squared:  0.5769, Adjusted R-squared:  0.5767 
-    ## F-statistic:  2930 on 18 and 38676 DF,  p-value: < 2.2e-16
-
-    ## 
-    ## Call:
-    ## lm(formula = resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + 
-    ##     region + storeys, data = filtered_data)
-    ## 
-    ## Residuals:
-    ##     Min      1Q  Median      3Q     Max 
-    ## -368703  -58332  -10519   45576  599517 
-    ## 
-    ## Coefficients:
-    ##                          Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)             194549.85    7857.41   24.76   <2e-16 ***
-    ## flat_type25-room         42785.29    1750.30   24.45   <2e-16 ***
-    ## flat_type2Executive     100957.37    3446.99   29.29   <2e-16 ***
-    ## floor_area_sqm            2097.08      63.82   32.86   <2e-16 ***
-    ## remaining_lease_length    3070.82      47.76   64.30   <2e-16 ***
-    ## regioneast             -184876.16    1748.21 -105.75   <2e-16 ***
-    ## regionnorth            -282901.15    1646.22 -171.85   <2e-16 ***
-    ## regionnorth-east       -212547.30    1497.84 -141.90   <2e-16 ***
-    ## regionwest             -238487.06    1507.36 -158.22   <2e-16 ***
-    ## storeyshigh              25033.09     992.24   25.23   <2e-16 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 91660 on 38685 degrees of freedom
-    ## Multiple R-squared:  0.585,  Adjusted R-squared:  0.5849 
-    ## F-statistic:  6058 on 9 and 38685 DF,  p-value: < 2.2e-16
-
 Three models were fitted:
 
 1.  A model with all the feature variables listed above (aka the Full
     model)
 2.  A model without the flat type variable
 3.  A model without the month of year variable
+
+<!-- -->
+
+    ## MODEL INFO:
+    ## Observations: 38695
+    ## Dependent Variable: resale_price
+    ## Type: Linear regression 
+    ## 
+    ## MODEL FIT:
+    ## χ²(20) = 459128647515962.31, p = 0.00
+    ## Pseudo-R² (Cragg-Uhler) = 0.59
+    ## Pseudo-R² (McFadden) = 0.03
+    ## AIC = 993973.99, BIC = 994162.39 
+    ## 
+    ## Standard errors: MLE
+    ## --------------------------------------------------------------------
+    ##                                      Est.      S.E.    t val.      p
+    ## ---------------------------- ------------ --------- --------- ------
+    ## (Intercept)                     192393.54   7991.52     24.07   0.00
+    ## flat_type25-room                 42930.32   1748.21     24.56   0.00
+    ## flat_type2Executive             101234.29   3442.75     29.41   0.00
+    ## floor_area_sqm                    2092.59     63.74     32.83   0.00
+    ## remaining_lease_length            3070.20     47.70     64.36   0.00
+    ## regioneast                     -184964.82   1745.95   -105.94   0.00
+    ## regionnorth                    -282939.00   1644.10   -172.09   0.00
+    ## regionnorth-east               -212554.68   1495.88   -142.09   0.00
+    ## regionwest                     -238367.42   1505.39   -158.34   0.00
+    ## storeyshigh                      24983.04    991.06     25.21   0.00
+    ## month_2February                   2499.78   2405.04      1.04   0.30
+    ## month_2March                      1080.56   2241.75      0.48   0.63
+    ## month_2April                      4411.63   2259.93      1.95   0.05
+    ## month_2May                       -4450.62   2334.43     -1.91   0.06
+    ## month_2June                      -5298.25   2289.35     -2.31   0.02
+    ## month_2July                      -2286.79   2245.69     -1.02   0.31
+    ## month_2August                     2523.11   2277.43      1.11   0.27
+    ## month_2September                  6326.38   2312.60      2.74   0.01
+    ## month_2October                    5928.02   2281.24      2.60   0.01
+    ## month_2November                  10855.42   2328.24      4.66   0.00
+    ## month_2December                  11675.33   2377.92      4.91   0.00
+    ## --------------------------------------------------------------------
+    ## 
+    ## Estimated dispersion parameter = 8378459300
+
+    ## MODEL INFO:
+    ## Observations: 38695
+    ## Dependent Variable: resale_price
+    ## Type: Linear regression 
+    ## 
+    ## MODEL FIT:
+    ## χ²(18) = 451839851213433.31, p = 0.00
+    ## Pseudo-R² (Cragg-Uhler) = 0.58
+    ## Pseudo-R² (McFadden) = 0.03
+    ## AIC = 994830.76, BIC = 995002.03 
+    ## 
+    ## Standard errors: MLE
+    ## --------------------------------------------------------------------
+    ##                                      Est.      S.E.    t val.      p
+    ## ---------------------------- ------------ --------- --------- ------
+    ## (Intercept)                      16398.79   5303.34      3.09   0.00
+    ## floor_area_sqm                    3768.31     27.78    135.67   0.00
+    ## remaining_lease_length            3316.60     47.37     70.01   0.00
+    ## regioneast                     -189269.19   1755.45   -107.82   0.00
+    ## regionnorth                    -284040.91   1659.29   -171.18   0.00
+    ## regionnorth-east               -210107.51   1510.00   -139.14   0.00
+    ## regionwest                     -239552.19   1519.93   -157.61   0.00
+    ## storeyshigh                      27079.19    998.56     27.12   0.00
+    ## month_2February                   2536.25   2431.84      1.04   0.30
+    ## month_2March                      1037.88   2266.74      0.46   0.65
+    ## month_2April                      4670.73   2285.13      2.04   0.04
+    ## month_2May                       -4274.48   2360.45     -1.81   0.07
+    ## month_2June                      -5724.85   2314.84     -2.47   0.01
+    ## month_2July                      -2354.65   2270.74     -1.04   0.30
+    ## month_2August                     2158.63   2302.73      0.94   0.35
+    ## month_2September                  6198.17   2338.40      2.65   0.01
+    ## month_2October                    5804.99   2306.68      2.52   0.01
+    ## month_2November                  10084.08   2353.99      4.28   0.00
+    ## month_2December                  11342.52   2404.42      4.72   0.00
+    ## --------------------------------------------------------------------
+    ## 
+    ## Estimated dispersion parameter = 8566483899
+
+    ## MODEL INFO:
+    ## Observations: 38695
+    ## Dependent Variable: resale_price
+    ## Type: Linear regression 
+    ## 
+    ## MODEL FIT:
+    ## χ²(9) = 458118946566707.12, p = 0.00
+    ## Pseudo-R² (Cragg-Uhler) = 0.58
+    ## Pseudo-R² (McFadden) = 0.03
+    ## AIC = 994072.38, BIC = 994166.58 
+    ## 
+    ## Standard errors: MLE
+    ## --------------------------------------------------------------------
+    ##                                      Est.      S.E.    t val.      p
+    ## ---------------------------- ------------ --------- --------- ------
+    ## (Intercept)                     194549.85   7857.41     24.76   0.00
+    ## flat_type25-room                 42785.29   1750.30     24.44   0.00
+    ## flat_type2Executive             100957.37   3446.99     29.29   0.00
+    ## floor_area_sqm                    2097.08     63.82     32.86   0.00
+    ## remaining_lease_length            3070.82     47.76     64.30   0.00
+    ## regioneast                     -184876.16   1748.21   -105.75   0.00
+    ## regionnorth                    -282901.15   1646.22   -171.85   0.00
+    ## regionnorth-east               -212547.30   1497.84   -141.90   0.00
+    ## regionwest                     -238487.06   1507.36   -158.21   0.00
+    ## storeyshigh                      25033.09    992.24     25.23   0.00
+    ## --------------------------------------------------------------------
+    ## 
+    ## Estimated dispersion parameter = 8402177482
 
 The r<sup>2</sup> values and the p-values for the coefficients of each
 model and for each full model were compared.
@@ -512,71 +517,10 @@ r<sup>2</sup> of 0.001, the coefficients for the month of year variable
 had several values that had *p*-values less than 0.1 thereby still being
 able to explain the HDB resale prices.
 
-### Digging deeper into each feature variable
-
-    ## 
-    ## Call:
-    ## lm(formula = resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + 
-    ##     region + storeys + month_2, data = filtered_data)
-    ## 
-    ## Residuals:
-    ##     Min      1Q  Median      3Q     Max 
-    ## -367175  -58312  -10367   45452  597610 
-    ## 
-    ## Coefficients:
-    ##                          Estimate Std. Error  t value Pr(>|t|)    
-    ## (Intercept)             192393.54    7991.52   24.075  < 2e-16 ***
-    ## flat_type25-room         42930.32    1748.21   24.557  < 2e-16 ***
-    ## flat_type2Executive     101234.29    3442.75   29.405  < 2e-16 ***
-    ## floor_area_sqm            2092.59      63.74   32.830  < 2e-16 ***
-    ## remaining_lease_length    3070.20      47.70   64.360  < 2e-16 ***
-    ## regioneast             -184964.82    1745.95 -105.939  < 2e-16 ***
-    ## regionnorth            -282939.00    1644.10 -172.094  < 2e-16 ***
-    ## regionnorth-east       -212554.68    1495.88 -142.093  < 2e-16 ***
-    ## regionwest             -238367.42    1505.39 -158.342  < 2e-16 ***
-    ## storeyshigh              24983.04     991.06   25.208  < 2e-16 ***
-    ## month_2February           2499.78    2405.04    1.039  0.29863    
-    ## month_2March              1080.56    2241.75    0.482  0.62980    
-    ## month_2April              4411.63    2259.93    1.952  0.05093 .  
-    ## month_2May               -4450.62    2334.43   -1.907  0.05659 .  
-    ## month_2June              -5298.25    2289.35   -2.314  0.02066 *  
-    ## month_2July              -2286.79    2245.69   -1.018  0.30854    
-    ## month_2August             2523.11    2277.43    1.108  0.26792    
-    ## month_2September          6326.38    2312.60    2.736  0.00623 ** 
-    ## month_2October            5928.02    2281.24    2.599  0.00936 ** 
-    ## month_2November          10855.42    2328.24    4.663 3.13e-06 ***
-    ## month_2December          11675.33    2377.92    4.910 9.15e-07 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 91530 on 38674 degrees of freedom
-    ## Multiple R-squared:  0.5863, Adjusted R-squared:  0.586 
-    ## F-statistic:  2740 on 20 and 38674 DF,  p-value: < 2.2e-16
-
-Reviewing the linear regression coefficients, we see the following
-insights:
-
-1.  As predicted, as flat sizes increase, the resale prices would
-    increase, all else being equal
-2.  As predicted, as remaining lease lengths increase, resale prices
-    would increase, all else being equal
-3.  As predicted, for apartments on higher floors, resale prices would
-    increase, all else being equal
-
-Two feature variables deserve separate insights analyses:
-
-- Region of apartment
-  - All else being equal, compared to apartments in the Central region,
-    apartments in the North, East, North-East and West regions would
-    predict lower resale prices.
-  - The order of resale prices by region from highest to lowest is as
-    follows: Central \> East \> North-East \> West \> North
-- Month of sale
-  - As predicted, resale prices would decrease in the middle of the year
-    (May to July), increase towards the end of the year and then fall
-    again.
-
 #### Visualising simple effects
+
+Examining the Full Model further, we will visualise the simple effects
+to ensure our insights above are validated based on the data.
 
     ## MODEL INFO:
     ## Observations: 38695
@@ -620,4 +564,129 @@ Two feature variables deserve separate insights analyses:
 
 <img src="README_files/figure-gfm/effect plot-1.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/effect plot-2.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/effect plot-3.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/effect plot-4.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/effect plot-5.png" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/effect plot-6.png" style="display: block; margin: auto;" />
 
+### Digging deeper into each feature variable
+
+    ## MODEL INFO:
+    ## Observations: 38695
+    ## Dependent Variable: resale_price
+    ## Type: Linear regression 
+    ## 
+    ## MODEL FIT:
+    ## χ²(20) = 459128647515962.31, p = 0.00
+    ## Pseudo-R² (Cragg-Uhler) = 0.59
+    ## Pseudo-R² (McFadden) = 0.03
+    ## AIC = 993973.99, BIC = 994162.39 
+    ## 
+    ## Standard errors: MLE
+    ## --------------------------------------------------------------------
+    ##                                      Est.      S.E.    t val.      p
+    ## ---------------------------- ------------ --------- --------- ------
+    ## (Intercept)                     192393.54   7991.52     24.07   0.00
+    ## flat_type25-room                 42930.32   1748.21     24.56   0.00
+    ## flat_type2Executive             101234.29   3442.75     29.41   0.00
+    ## floor_area_sqm                    2092.59     63.74     32.83   0.00
+    ## remaining_lease_length            3070.20     47.70     64.36   0.00
+    ## regioneast                     -184964.82   1745.95   -105.94   0.00
+    ## regionnorth                    -282939.00   1644.10   -172.09   0.00
+    ## regionnorth-east               -212554.68   1495.88   -142.09   0.00
+    ## regionwest                     -238367.42   1505.39   -158.34   0.00
+    ## storeyshigh                      24983.04    991.06     25.21   0.00
+    ## month_2February                   2499.78   2405.04      1.04   0.30
+    ## month_2March                      1080.56   2241.75      0.48   0.63
+    ## month_2April                      4411.63   2259.93      1.95   0.05
+    ## month_2May                       -4450.62   2334.43     -1.91   0.06
+    ## month_2June                      -5298.25   2289.35     -2.31   0.02
+    ## month_2July                      -2286.79   2245.69     -1.02   0.31
+    ## month_2August                     2523.11   2277.43      1.11   0.27
+    ## month_2September                  6326.38   2312.60      2.74   0.01
+    ## month_2October                    5928.02   2281.24      2.60   0.01
+    ## month_2November                  10855.42   2328.24      4.66   0.00
+    ## month_2December                  11675.33   2377.92      4.91   0.00
+    ## --------------------------------------------------------------------
+    ## 
+    ## Estimated dispersion parameter = 8378459300
+
+Reviewing the linear regression coefficients, we see the following
+insights:
+
+1.  As predicted, as flat sizes increase, the resale prices would
+    increase, all else being equal
+2.  As predicted, as remaining lease lengths increase, resale prices
+    would increase, all else being equal
+3.  As predicted, for apartments on higher floors, resale prices would
+    increase, all else being equal
+
+Two feature variables deserve separate insights analyses:
+
+- Region of apartment
+  - All else being equal, compared to apartments in the Central region,
+    apartments in the North, East, North-East and West regions would
+    predict lower resale prices.
+  - The order of resale prices by region from highest to lowest is as
+    follows: Central \> East \> North-East \> West \> North
+- Month of sale
+  - As predicted, resale prices would decrease in the middle of the year
+    (May to July), increase towards the end of the year, sustain at the
+    beginning of the year and then fall again in mid-year.
+
+At this point, some of the more obvious predictors would be flat sizes,
+remaining lease lengths and apartment floor level, where it is clear
+that the higher they go, the higher prices would go.
+
+It seems that key variables that are would affect my decision-making
+would be the region of the HDB flat and the time of year that I purchase
+a flat. In sum, I can expect to pay on average, the lowest prices when
+purchasing flats in the North and aim to purchase one in May to June to
+take advantage of a fall in market prices.
+
+This is what we see when visualising mean HDB resale prices by region
+across 2010 to 2022:
+
+    ## `summarise()` has grouped output by 'region', 'month_year'. You can override
+    ## using the `.groups` argument.
+
+<img src="README_files/figure-gfm/visualise prices by region over time-1.png" style="display: block; margin: auto;" />
+
+It is evident that resale prices are on a general upward trend, with the
+prices in the Central regions seeing the most volatility compared to
+other regions. More importantly, the prices in the North region are
+relatively the lowest, followed by both the West and North-East, then by
+East.
+
+When visualising the month of year that a flat gets sold:
+<img src="README_files/figure-gfm/visualise prices by month of year-1.png" style="display: block; margin: auto;" />
+
+It is also evident that resale prices tend to be lowest in the mid-year
+months of May to June. As such, I could expect to find the lowest
+relative prices at this time of the year.
+
 ## Conclusions
+
+I set out on this project with the aim of analysing HDB resale flat
+prices over time to uncover any insights or trends. As I had some layman
+intuition about the relationship between resale prices and several
+factors, the analyses here validated some of those assumptions and
+provided insight into other factors.
+
+In short:
+
+- Larger flat sizes, longer remaining lease lengths and units on higher
+  floors command higher resale prices
+- Different regions command different average prices, in order from
+  highest to lowest: Central \> East \> North-East \> West \> North
+- The time of the year when a unit is sold could determine its price
+  relative to the market, with relatively lower prices consistently seen
+  in May to June.
+
+While there are many other factors affecting when a couple purchases a
+home (e.g., necessity and urgency of moving out), the variables analysed
+here were readily and publicly available and could serve to inform
+potential homeowners with the same criteria as me when studying HDB
+resale flat prices. With time in hand and adequate patience, one might
+be able to secure a flat when the market prices them at their lowest as
+compared to the rest of the year and also pick units in regions where
+prices are lower than others.
+
+Thank you for looking through this humble project of mine. Please feel
+free to reach out to me for any feedback or enquiries through my social
+media or email as listed [here](https://github.com/iyliahutta).

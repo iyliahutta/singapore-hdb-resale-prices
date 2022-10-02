@@ -1,5 +1,5 @@
 ---
-title: "Singapore HDB Resale Flat Prices for 1990 - 2022"
+title: "Singapore HDB Resale Flat Prices"
 output: 
   github_document:
     toc: TRUE
@@ -492,25 +492,35 @@ After exploring our data and gaining some insights into the trends and factors p
 
 For these linear regression models, the alpha level will be set at 0.1.
 
-```{r multiple linear regression for resale prices, echo = FALSE}
-lm_resale_prices <- lm(resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + region + storeys + month_2, data = filtered_data) #define linear regression model
-
-summary(lm_resale_prices) #Review the results
-
-lm_resale_prices_2 <- lm(resale_price ~ floor_area_sqm + remaining_lease_length + region + storeys + month_2, data = filtered_data) #define linear regression model 2 without flat_type variable
-
-summary(lm_resale_prices_2) #Review the results 2
-
-lm_resale_prices_3 <- lm(resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + region + storeys, data = filtered_data) #define linear regression model 3 without month of year
-
-summary(lm_resale_prices_3) #Review the results 3
-```
-
 Three models were fitted:
 
 1. A model with all the feature variables listed above (aka the Full model)
 2. A model without the flat type variable
 3. A model without the month of year variable
+
+```{r multiple linear regression for resale prices Full Model, echo = FALSE}
+glm_resale_prices <- glm(resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + region + storeys + month_2, 
+                            data = filtered_data,
+                            family = gaussian()) #define linear regression model
+
+summ(glm_resale_prices) #Review the results
+```
+
+```{r multiple linear regression for resale prices Model 2, echo = FALSE}
+glm_resale_prices_2 <- glm(resale_price ~ floor_area_sqm + remaining_lease_length + region + storeys + month_2, 
+                              data = filtered_data,
+                              family = gaussian()) #define linear regression model 2 without flat_type variable
+
+summ(glm_resale_prices_2) #Review the results 2
+```
+
+```{r multiple linear regression for resale prices Model 3, echo = FALSE}
+glm_resale_prices_3 <- glm(resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + region + storeys, 
+                              data = filtered_data,
+                              family = gaussian()) #define linear regression model 3 without month of year
+
+summ(glm_resale_prices_3) #Review the results 3
+```
 
 The r^2^ values and the p-values for the coefficients of each model and for each full model were compared.
 
@@ -518,9 +528,29 @@ The results show that the full model was sufficient in explaining the HDB resale
 
 While dropping the month of year variable resulted in a change in r^2^ of 0.001, the coefficients for the month of year variable had several values that had *p*-values less than 0.1 thereby still being able to explain the HDB resale prices.
 
+#### Visualising simple effects
+
+Examining the Full Model further, we will visualise the simple effects to ensure our insights above are validated based on the data.
+
+```{r effect plot, echo = FALSE, fig.align = "center"}
+summ(glm_resale_prices)
+
+effect_plot(glm_resale_prices, pred = flat_type2, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot flat type predictor
+
+effect_plot(glm_resale_prices, pred = floor_area_sqm, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot floor area predictor
+
+effect_plot(glm_resale_prices, pred = remaining_lease_length, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot remaining lease length predictor
+
+effect_plot(glm_resale_prices, pred = region, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot region predictor
+
+effect_plot(glm_resale_prices, pred = storeys, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot storeys predictor
+
+effect_plot(glm_resale_prices, pred = month_2, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot month predictor
+```
+
 ### Digging deeper into each feature variable
 ```{r review the linear regression, echo = FALSE}
-summary(lm_resale_prices) #Review the results
+summ(glm_resale_prices) #Review the results
 ```
 Reviewing the linear regression coefficients, we see the following insights:
 
@@ -534,27 +564,62 @@ Two feature variables deserve separate insights analyses:
   - All else being equal, compared to apartments in the Central region, apartments in the North, East, North-East and West regions would predict lower resale prices.
   - The order of resale prices by region from highest to lowest is as follows: Central > East > North-East > West > North
 - Month of sale
-  - As predicted, resale prices would decrease in the middle of the year (May to July), increase towards the end of the year and then fall again.
+  - As predicted, resale prices would decrease in the middle of the year (May to July), increase towards the end of the year, sustain at the beginning of the year and then fall again in mid-year.
 
-#### Visualising simple effects
-```{r effect plot, echo = FALSE, fig.align = "center"}
-glm_resale_prices <- glm(resale_price ~ flat_type2 + floor_area_sqm + remaining_lease_length + region + storeys + month_2, data = filtered_data,
-            family = gaussian()) #create selected model using glm
+At this point, some of the more obvious predictors would be flat sizes, remaining lease lengths and apartment floor level, where it is clear that the higher they go, the higher prices would go.
 
-summ(glm_resale_prices)
+It seems that key variables that are would affect my decision-making would be the region of the HDB flat and the time of year that I purchase a flat. In sum, I can expect to pay on average, the lowest prices when purchasing flats in the North and aim to purchase one in May to June to take advantage of a fall in market prices.
 
-effect_plot(glm_resale_prices, pred = region, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot region predictor
-
-effect_plot(glm_resale_prices, pred = flat_type2, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot flat type predictor
-
-effect_plot(glm_resale_prices, pred = floor_area_sqm, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot floor area predictor
-
-effect_plot(glm_resale_prices, pred = remaining_lease_length, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot remaining lease length predictor
-
-effect_plot(glm_resale_prices, pred = storeys, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot storeys predictor
-
-effect_plot(glm_resale_prices, pred = month_2, interval = TRUE, plot.points = TRUE, jitter = 0.05) #plot month predictor
+This is what we see when visualising mean HDB resale prices by region across 2010 to 2022:
+```{r visualise prices by region over time, echo = FALSE, fig.align = "center"}
+filtered_data %>% 
+  select(resale_price, region, month_year) %>% 
+  group_by(region, month_year) %>%
+  summarise(mean_price = mean(resale_price), region, month_year) %>% 
+  ggplot(aes(x = month_year, y = mean_price/1000)) +
+  geom_line(color = "red") +
+  labs(title = "Monthly Mean HDB Resale Prices over 2010 to 2022 by region",
+          y = "HDB Resale Prices (SGD; thousands)",
+          x = "Month and Year") +
+    theme_bw(base_size = 15) +
+    theme(plot.title = element_text(size = 12),
+            axis.text.x = element_text(angle = 60, vjust = 1, hjust = 1),
+            axis.title.y = element_text(size = 13)) +
+    facet_grid(rows = vars(region)) +
+    scale_x_date(date_breaks = "1 year", date_minor_breaks = "1 month", date_labels = "%b %Y")
 ```
 
+It is evident that resale prices are on a general upward trend, with the prices in the Central regions seeing the most volatility compared to other regions. More importantly, the prices in the North region are relatively the lowest, followed by both the West and North-East, then by East.
+
+When visualising the month of year that a flat gets sold:
+```{r visualise prices by month of year, echo = FALSE, fig.align = "center"}
+filtered_data %>% 
+  select(resale_price, month_2) %>% 
+  group_by(month_2) %>%
+  ggplot(aes(x = month_2, y = resale_price/1000, fill = month_2)) +
+  geom_boxplot() +
+  labs(title = "Monthly Mean HDB Resale Prices over 2010 to 2022 by Month of Sale",
+          y = "HDB Resale Prices (SGD; thousands)",
+          x = "Month of Sale") +
+    theme_bw(base_size = 15) +
+    theme(plot.title = element_text(size = 12),
+            axis.text.x = element_text(angle = 60, vjust = 1, hjust = 1),
+            axis.title.y = element_text(size = 13)) +
+    scale_fill_brewer(palette = "Paired")
+```
+
+It is also evident that resale prices tend to be lowest in the mid-year months of May to June. As such, I could expect to find the lowest relative prices at this time of the year.
 
 ## Conclusions
+
+I set out on this project with the aim of analysing HDB resale flat prices over time to uncover any insights or trends. As I had some layman intuition about the relationship between resale prices and several factors, the analyses here validated some of those assumptions and provided insight into other factors.
+
+In short:
+
+- Larger flat sizes, longer remaining lease lengths and units on higher floors command higher resale prices
+- Different regions command different average prices, in order from highest to lowest: Central > East > North-East > West > North
+- The time of the year when a unit is sold could determine its price relative to the market, with relatively lower prices consistently seen in May to June.
+
+While there are many other factors affecting when a couple purchases a home (e.g., necessity and urgency of moving out), the variables analysed here were readily and publicly available and could serve to inform potential homeowners with the same criteria as me when studying HDB resale flat prices. With time in hand and adequate patience, one might be able to secure a flat when the market prices them at their lowest as compared to the rest of the year and also pick units in regions where prices are lower than others.
+
+Thank you for looking through this humble project of mine. Please feel free to reach out to me for any feedback or enquiries through my social media or email as listed [here](https://github.com/iyliahutta).
