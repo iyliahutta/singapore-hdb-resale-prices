@@ -641,10 +641,6 @@ take advantage of a fall in market prices.
 
 This is what we see when visualising mean HDB resale prices by region
 across 2010 to 2022:
-
-    ## `summarise()` has grouped output by 'region', 'month_year'. You can override
-    ## using the `.groups` argument.
-
 <img src="README_files/figure-gfm/visualise prices by region over time-1.png" style="display: block; margin: auto;" />
 
 It is evident that resale prices are on a general upward trend, with the
