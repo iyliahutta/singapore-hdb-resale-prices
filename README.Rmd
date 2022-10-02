@@ -571,7 +571,7 @@ At this point, some of the more obvious predictors would be flat sizes, remainin
 It seems that key variables that are would affect my decision-making would be the region of the HDB flat and the time of year that I purchase a flat. In sum, I can expect to pay on average, the lowest prices when purchasing flats in the North and aim to purchase one in May to June to take advantage of a fall in market prices.
 
 This is what we see when visualising mean HDB resale prices by region across 2010 to 2022:
-```{r visualise prices by region over time, echo = FALSE, fig.align = "center"}
+```{r visualise prices by region over time, echo = FALSE, message = 'FALSE', fig.align = "center"}
 filtered_data %>% 
   select(resale_price, region, month_year) %>% 
   group_by(region, month_year) %>%
